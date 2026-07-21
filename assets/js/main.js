@@ -302,7 +302,151 @@
     });
   }
 
-  /* ── 6. REVEAL ON SCROLL ─────────────────────────────────── */
+  /* ── 6. SHARE A POSTER ───────────────────────────────────────
+     Tapping a poster opens a sheet with a note already written for that
+     artist. Where the browser has a real share sheet (nearly all phones)
+     we hand it the poster image itself, so WhatsApp sends the picture and
+     not just a link. Everywhere else there are explicit buttons.        */
+  var dlg = $('#shareDlg');
+
+  if (dlg) {
+    var picEl = $('#sharePic'), msgEl = $('#shareMsg'), noteEl = $('#shareNote');
+    var btnNative = $('#shareNative'), aWa = $('#shareWa'), aMail = $('#shareMail');
+    var btnCopy = $('#shareCopy'), aDl = $('#shareDl');
+    var current = null;
+    var SITE = location.origin + location.pathname.replace(/index\.html$/, '');
+
+    /* The note has to end in an actual invitation, not just facts. */
+    var TAIL = 'Bharatiya Vidya Bhavan, Mylapore, Chennai. Entry is free.';
+    var ASK = 'Do join us, or watch it live here:';
+
+    function say(t) { noteEl.textContent = t || ''; }
+
+    /* The poster is fetched when the sheet opens, not when Share is tapped.
+       navigator.share needs transient user activation, and awaiting a fetch
+       inside the click handler can spend it: Safari then rejects the call. */
+    var readyFile = null;
+    function prefetchPoster() {
+      readyFile = null;
+      if (!navigator.canShare || !current) return;
+      var want = current.jpg;
+      fetch(want)
+        .then(function (r) { return r.ok ? r.blob() : Promise.reject(); })
+        .then(function (blob) {
+          if (!current || current.jpg !== want) return;      // sheet moved on
+          var file = new File([blob], 'sri-krishna-utsavam-' + current.img + '.jpg',
+                              { type: 'image/jpeg' });
+          if (navigator.canShare({ files: [file] })) readyFile = file;
+        })
+        .catch(function () {
+          /* only clear if this is still the poster on screen, or a failed
+             fetch for an old poster wipes the file we just got for a new one */
+          if (current && current.jpg === want) readyFile = null;
+        });
+    }
+
+    /* One way out, so every path releases the scroll lock and returns focus,
+       including on browsers with no <dialog> support where close() is absent. */
+    var lastPoster = null;
+    function closeShare() {
+      if (typeof dlg.close === 'function' && dlg.open) dlg.close();
+      else dlg.removeAttribute('open');
+      say('');
+      document.documentElement.style.overflow = '';
+      if (lastPoster && lastPoster.isConnected) lastPoster.focus({ preventScroll: true });
+    }
+
+    function openShare(btn) {
+      if (dlg.open) closeShare();         // never call showModal on an open dialog
+      lastPoster = btn;
+      var img = btn.dataset.img;
+      var url = SITE + (btn.dataset.anchor || '');
+      current = {
+        img: img,
+        who: btn.dataset.who,
+        url: url,
+        jpg: 'assets/img/posters/' + img + '.jpg'
+      };
+
+      picEl.src = 'assets/img/posters/' + img + '.webp';
+      picEl.alt = $('img', btn).alt;
+      msgEl.value = btn.dataset.msg + '\n' + TAIL + '\n' + ASK + ' ' + url;
+      aDl.href = current.jpg;
+      aDl.setAttribute('download', 'sri-krishna-utsavam-' + img + '.jpg');
+      say('');
+      sync();
+      prefetchPoster();
+
+      if (typeof dlg.showModal === 'function') dlg.showModal();
+      else dlg.setAttribute('open', '');
+      document.documentElement.style.overflow = 'hidden';
+      /* focus the heading, not the textarea: opening a phone keyboard over
+         the sheet the moment it appears is hostile */
+      $('.share__h', dlg).setAttribute('tabindex', '-1');
+      $('.share__h', dlg).focus({ preventScroll: true });
+    }
+
+    /* keep the WhatsApp and mail links in step with any edit to the note */
+    function sync() {
+      var text = msgEl.value;
+      aWa.href = 'https://wa.me/?text=' + encodeURIComponent(text);
+      aMail.href = 'mailto:?subject=' +
+        encodeURIComponent('Sri Krishna Utsavam 2026, 31 July to 5 August') +
+        '&body=' + encodeURIComponent(text);
+    }
+    msgEl.addEventListener('input', sync);
+
+    /* the OS sheet, with the poster attached when the browser allows files */
+    if (navigator.share) {
+      btnNative.hidden = false;
+      btnNative.addEventListener('click', function () {
+        var text = msgEl.value;
+        /* called synchronously so the tap's user activation still counts */
+        var payload = readyFile
+          ? { files: [readyFile], text: text }
+          : { text: text, url: current.url };
+
+        var p;
+        try { p = navigator.share(payload); } catch (e) { p = Promise.reject(e); }
+
+        p.then(function () { say('Thank you for passing it on.'); })
+         .catch(function (err) {
+           if (err && err.name === 'AbortError') { say(''); return; }
+           say('Your browser could not open the share menu. Use WhatsApp or email instead.');
+         });
+      });
+    }
+
+    btnCopy.addEventListener('click', function () {
+      var text = msgEl.value;
+      var done = function () { say('Note copied. Paste it wherever you like.'); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { say('Copy did not work. Select the note and copy it by hand.'); });
+      } else {
+        msgEl.select();
+        try { document.execCommand('copy'); done(); } catch (e) { say('Copy did not work. Select the note and copy it by hand.'); }
+      }
+    });
+
+    $$('.poster').forEach(function (btn) {
+      btn.addEventListener('click', function () { openShare(btn); });
+    });
+
+    $('#shareClose').addEventListener('click', closeShare);
+    /* clicking the backdrop closes it, same as Esc */
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) closeShare(); });
+    /* native dialogs handle Esc themselves; the fallback path does not */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && dlg.hasAttribute('open')) closeShare();
+    });
+    /* covers Esc on the native dialog, which closes without touching us */
+    dlg.addEventListener('close', function () {
+      say('');
+      document.documentElement.style.overflow = '';
+    });
+  }
+
+  /* ── 7. REVEAL ON SCROLL ─────────────────────────────────── */
   if (hasIO && !reduceMotion) {
     var targets = $$('.about__text, .about__art, .day, .card, .watch__copy, .player, .visit__card, .sec-head');
     targets.forEach(function (el) { el.classList.add('reveal'); });
@@ -312,5 +456,15 @@
       });
     }, { rootMargin: '0px 0px -10% 0px', threshold: .05 });
     targets.forEach(function (el) { io.observe(el); });
+
+    /* Failsafe. A reveal must never be the reason content is missing:
+       observers do not fire in background tabs, in headless renderers, or
+       in print. After a few seconds everything is shown regardless. */
+    var reveal = function () {
+      targets.forEach(function (el) { el.classList.add('is-in'); });
+      io.disconnect();
+    };
+    setTimeout(reveal, 4000);
+    window.addEventListener('beforeprint', reveal);
   }
 })();

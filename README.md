@@ -70,6 +70,33 @@ JavaScript, so changing them here changes everything.
 - The visible `<time>` is only a label. Edit it to match `data-start`.
 - Keep the `+05:30`. It is what makes the countdown correct for viewers abroad.
 
+## Sharing a poster
+
+Tapping any card in the "Send the invitation" strip opens a share sheet holding that
+card, a note already written for that artist, and the ways to send it.
+
+Where the browser has a real share sheet (almost every phone) it hands the operating
+system the **poster image itself**, so WhatsApp sends the picture rather than a bare
+link. Everywhere else there are explicit WhatsApp, email, copy and download actions.
+
+The note lives on the button, so the client can reword any of them without touching
+JavaScript:
+
+```html
+<button class="poster" type="button"
+        data-img="day4-sujata"          <!-- basename in assets/img/posters/ -->
+        data-anchor="#day-4"            <!-- deep link added to the note      -->
+        data-who="Dr. Sujata Mohapatra"
+        data-msg="Dr. Sujata Mohapatra dances at the 16th Sri Krishna Utsavam. ...">
+```
+
+The venue line and the closing invitation are shared by every card and live in
+`main.js` as `TAIL` and `ASK`.
+
+Each poster exists twice: `.webp` for the page, `.jpg` for sharing, because WhatsApp and
+mail clients handle JPEG most reliably. The JPEG is only fetched when someone actually
+opens the share sheet, so it costs nothing on page load.
+
 ## Before the client shares it
 
 1. **YouTube link.** The invitation only gives the channel name "SVMF". The Watch
