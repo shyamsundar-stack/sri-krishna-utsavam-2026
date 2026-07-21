@@ -12,6 +12,10 @@
    ============================================================ */
 
 :root{
+  /* the page carries one fixed brand palette; without this Chrome's Android
+     auto dark theme repaints the cream sections brown */
+  color-scheme:dark;
+
   --maroon-900:#4E0011;
   --maroon-800:#6E0018;
   --maroon-700:#85001D;
@@ -173,7 +177,11 @@ p{text-wrap:pretty}
 .nav__cta::after{display:none}
 .nav__cta:hover{background:rgb(255 232 166 / .1)}
 
-.nav__toggle{display:none;flex-direction:column;gap:5px;background:none;border:0;padding:.6rem;cursor:pointer;margin-left:auto}
+.nav__toggle{
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  background:none;border:0;cursor:pointer;margin-left:auto;
+  min-width:44px;min-height:44px;padding:.6rem;   /* full tap target */
+}
 .nav__bar{display:block;width:24px;height:1.5px;background:var(--cream);transition:transform .3s var(--ease),opacity .2s}
 .nav__toggle[aria-expanded="true"] .nav__bar:nth-of-type(1){transform:translateY(6.5px) rotate(45deg)}
 .nav__toggle[aria-expanded="true"] .nav__bar:nth-of-type(2){opacity:0}
@@ -706,6 +714,31 @@ dialog:not([open]){display:none}
   .event__time{padding-top:0}
 
   .visit__card{margin-top:-2rem}
+}
+
+/* Phones: stand the artist cards up as rows. Stacked, a portrait cut-out is
+   only ~186px wide in a 350px column, so most of the width goes to waste and
+   nine artists become ten screens of scrolling. Side by side, the face keeps
+   its size, the details get real measure, and the section halves in height. */
+@media (max-width:620px){
+  .cards{gap:1.1rem}
+  .card{
+    flex-direction:row;align-items:stretch;padding-top:0;
+    gap:.6rem;
+  }
+  .card__pic{
+    flex:0 0 40%;height:auto;min-height:150px;margin-bottom:0;
+    align-items:flex-end;justify-content:center;
+  }
+  .card__pic img{max-height:190px;max-width:100%}
+  .card:hover .card__pic img{transform:none}
+  .card__txt{
+    flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;
+    padding:1.1rem 1.15rem;
+  }
+  .card__txt h3{font-size:1.05rem}
+  .card__when{font-size:.8rem !important}
+  .card__kind{font-size:.85rem !important}
 }
 
 @media (max-width:520px){
