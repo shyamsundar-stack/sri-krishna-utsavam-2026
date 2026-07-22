@@ -6,7 +6,7 @@
 
 A one-page invitation and programme for the 16th Sri Krishna Utsavam, a devotional
 Indian classical-arts festival held 31 July to 5 August 2026 at Bharatiya Vidya Bhavan,
-Mylapore, Chennai. Six evenings of Carnatic vocal concerts, Bharatanatyam, Odissi and
+Mylapore, Chennai. Six days of Carnatic vocal concerts, Bharatanatyam, Odissi and
 Mohiniyattam recitals, and Sanskrit discourse. Entry is free. Every session is streamed.
 
 Presented by the Sri Vishnu Mohan Foundation and Sri Gnana Advaitha Peetam, two
