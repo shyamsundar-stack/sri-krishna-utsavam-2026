@@ -279,8 +279,19 @@
     new IntersectionObserver(function (entries) {
       nav.classList.toggle('is-stuck', !entries[0].isIntersecting);
     }, { threshold: 0 }).observe(sentinel);
+
+    /* The nav wordmark only appears once the big one has scrolled away,
+       so the logo is never on screen twice. */
+    var heroMark = $('.hero__mark');
+    if (heroMark) {
+      new IntersectionObserver(function (entries) {
+        nav.classList.toggle('has-brand', !entries[0].isIntersecting);
+      }, { threshold: 0 }).observe(heroMark);
+    } else {
+      nav.classList.add('has-brand');
+    }
   } else {
-    nav.classList.add('is-stuck');
+    nav.classList.add('is-stuck', 'has-brand');
   }
 
   if (toggle && links) {
