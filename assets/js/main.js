@@ -325,7 +325,11 @@
     var btnNative = $('#shareNative'), aWa = $('#shareWa'), aMail = $('#shareMail');
     var btnCopy = $('#shareCopy'), aDl = $('#shareDl');
     var current = null;
-    var SITE = location.origin + location.pathname.replace(/index\.html$/, '');
+    /* The branded link people actually see and forward. Switchy redirects it
+       to the live site and tracks the click. The #day-N fragment is kept by
+       the browser across the redirect, so deep links still land on the right
+       day. Change this one line if the public address changes. */
+    var SITE = 'https://live.svmf.in/krishna-utsavam';
 
     /* The note has to end in an actual invitation, not just facts. */
     var TAIL = 'Bharatiya Vidya Bhavan, Mylapore, Chennai. Entry is free.';

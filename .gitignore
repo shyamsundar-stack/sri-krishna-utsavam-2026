@@ -6,3 +6,6 @@ _share.html
 *.log
 Thumbs.db
 .DS_Store
+
+# handoff docs, not part of the site
+Sri-Krishna-Utsavam-DNS-setup.pdf

@@ -4,7 +4,8 @@ Landing page for the 16th Sri Krishna Utsavam, 31 July to 5 August 2026, at Bhar
 Vidya Bhavan, Mylapore, Chennai. Presented by the Sri Vishnu Mohan Foundation and Sri
 Gnana Advaitha Peetam.
 
-**Live: https://shyamsundar-stack.github.io/sri-krishna-utsavam-2026/**
+**Public link: https://live.svmf.in/krishna-utsavam** (a Switchy redirect to the GitHub Pages
+site below, with click tracking; this is the link to share).
 
 Plain HTML, CSS and JavaScript. No build step, no dependencies, no framework. Colours,
 artwork, photography and schedule all come from the printed invitation.
