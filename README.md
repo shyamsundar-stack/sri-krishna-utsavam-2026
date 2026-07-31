@@ -28,18 +28,23 @@ Open `index.html` directly, or serve the folder:
 python -m http.server 4321
 ```
 
-## Turning the live stream on
+## The live stream
 
-Open `assets/js/main.js` and set the embed URL on line 17:
+`assets/js/main.js` carries one scheduled YouTube broadcast per festival day, keyed by
+the festival date in IST (the date part of every `data-start`):
 
 ```js
-var STREAM_URL = 'https://www.youtube.com/embed/live_stream?channel=UCxxxxxxxx';
+var STREAMS = {
+  '2026-07-31': 'Tb1eBjKZ4aE',
+  /* ... one entry per day, from the technician sheet ... */
+};
 ```
 
-That is the only change needed. Until it is set, the page still works: during a live
-session it shows "Live now" and offers Zoom and YouTube buttons instead of an embed, so
-nothing is broken if nobody gets to this before Day 1. Once it is set, the real player
-mounts itself the moment a scheduled session starts.
+The player mounts the right day's embed by itself, `EARLY_MIN` minutes before the first
+item, so early arrivals land in YouTube's waiting room and then the feed. During the
+festival there is nothing to edit. If a day's id were ever missing, the player shows
+Zoom and YouTube channel buttons instead of a dead frame, and each id keeps working
+after its evening ends as the link to that day's recording.
 
 The player has three clock-driven states:
 
@@ -100,16 +105,13 @@ opens the share sheet, so it costs nothing on page load.
 
 ## Before the client shares it
 
-1. **YouTube link.** The invitation only gives the channel name "SVMF". The Watch
-   section currently says a direct link will follow. Replace it in `index.html` once you
-   have the channel URL, and set `STREAM_URL` in `main.js`.
-2. **Saketaraman's start time.** The invitation contradicts itself: the Schedule of
+1. **Saketaraman's start time.** The invitation contradicts itself: the Schedule of
    Events page says the Day 1 concert begins at **6:00 pm**, his own artist card says
    **5:30 pm**. The site uses 6:00 pm. Change `data-start` on that row if the card is
    right.
-3. **Session end times** are estimates used for the live-state logic and the calendar
+2. **Session end times** are estimates used for the live-state logic and the calendar
    files. Adjust `data-end` if the organisers have firmer timings.
-4. **Custom domain.** If you point a domain at this, update the four absolute URLs in
+3. **Custom domain.** If you point a domain at this, update the four absolute URLs in
    the `<head>` and the ones in the JSON-LD block at the foot of `index.html`.
 
 ## Notes on the build

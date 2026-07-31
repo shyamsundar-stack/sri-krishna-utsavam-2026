@@ -10,11 +10,29 @@
   'use strict';
 
   /* ── 1. CONFIG ──────────────────────────────────────────────
-     Paste the embed URL here to go live, for example
-     'https://www.youtube.com/embed/live_stream?channel=UCxxxxxxxx'
-     While this is null the player shows the "opens soon" card.
+     One scheduled YouTube broadcast per festival day, from the
+     technician sheet. The key is the festival day in IST, which is
+     exactly the date part of every data-start in index.html; the
+     value is that day's video id. The player mounts the right embed
+     on its own, so nothing here needs touching while the utsavam
+     runs. Each id keeps working afterwards as the day's recording.
   ------------------------------------------------------------ */
-  var STREAM_URL = null;
+  var STREAMS = {
+    '2026-07-31': 'Tb1eBjKZ4aE',
+    '2026-08-01': '-U0Hn4vArB4',   /* ids may begin with a hyphen */
+    '2026-08-02': 'FXx2Y5HCRCE',
+    '2026-08-03': 'KZUKT2Vdfvs',
+    '2026-08-04': '-KwUPPhh6-4',
+    '2026-08-05': '-8TDELKioSc'
+  };
+
+  /* The channel's own "current stream" address, the fallback
+     wherever a specific embed is missing. */
+  var CHANNEL_LIVE = 'https://www.youtube.com/@svmf5987/live';
+
+  /* Mount the day's embed this many minutes before the first item,
+     so early arrivals land in YouTube's waiting room, not a card. */
+  var EARLY_MIN = 25;
 
   var VENUE = 'Bharatiya Vidya Bhavan (Main Hall), New No. 18, 20 and 22, ' +
               'East Mada Street, Mylapore, Chennai 600004';
@@ -82,24 +100,28 @@
     return null;
   }
 
-  var streamMounted = false;
-  function mountStream() {
-    if (streamMounted || !player) return;
-    var frame = $('.player__frame', player);
+  var mountedDay = null;
+  function dayKey(e) { return (e.el.dataset.start || '').slice(0, 10); }
 
-    if (STREAM_URL) {
+  function mountStream(day) {
+    if (!player || !day || mountedDay === day) return;
+    var frame = $('.player__frame', player);
+    var id = STREAMS[day];
+
+    if (id) {
       var iframe = document.createElement('iframe');
-      iframe.src = STREAM_URL;
+      iframe.src = 'https://www.youtube.com/embed/' + encodeURIComponent(id) + '?playsinline=1&rel=0';
       iframe.title = 'Sri Krishna Utsavam live stream';
       iframe.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
       iframe.allowFullscreen = true;
       frame.innerHTML = '';
       frame.appendChild(iframe);
-      streamMounted = true;
+      player.classList.remove('has-ways');
+      mountedDay = day;
       return;
     }
 
-    /* No embed configured. Rather than show a dead player while a session is
+    /* No id for this day. Rather than show a dead player while a session is
        genuinely on stage, hand the viewer the two rooms that do exist. */
     var box = $('.player__soon', frame);
     if (!box || $('.player__ways', box)) return;
@@ -109,7 +131,7 @@
       '<a class="btn btn--gold" target="_blank" rel="noopener" ' +
       'href="https://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09">Open the Zoom room</a>' +
       '<a class="btn btn--ghost" target="_blank" rel="noopener" ' +
-      'href="https://www.youtube.com/results?search_query=Sri+Vishnu+Mohan+Foundation+live">Find it on YouTube</a>';
+      'href="' + CHANNEL_LIVE + '">Watch on YouTube</a>';
     box.appendChild(ways);
     /* lets the CSS drop the fixed 16/9 box so the buttons cannot be clipped */
     player.classList.add('has-ways');
@@ -142,7 +164,7 @@
         set(pBadge, 'textContent', 'Live now');
         set(pHead, 'textContent', live.title);
         set(pSub, 'textContent', live.kind || fmtDate(live.start));
-        mountStream();
+        mountStream(dayKey(live));
       }
       return;
     }
@@ -190,6 +212,12 @@
         set(pBadge, 'textContent', 'Streaming opens soon');
         set(pHead, 'textContent', billed.title);
         set(pSub, 'textContent', billed.day + ', ' + fmtDate(billed.start) + ' at ' + fmtTime(billed.start) + ' IST');
+      }
+      /* the page promises the player "opens a few minutes before each
+         performance": mount the day's embed a little ahead of the first
+         item, so early arrivals see YouTube's waiting room, then the feed */
+      if (next && next.start - now < EARLY_MIN * 60000) {
+        mountStream(dayKey(next));
       }
     }
   }
