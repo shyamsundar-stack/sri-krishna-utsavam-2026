@@ -26,10 +26,6 @@
     '2026-08-05': '-8TDELKioSc'
   };
 
-  /* The channel's own "current stream" address, the fallback
-     wherever a specific embed is missing. */
-  var CHANNEL_LIVE = 'https://www.youtube.com/@svmf5987/live';
-
   /* Mount the day's embed this many minutes before the first item,
      so early arrivals land in YouTube's waiting room, not a card. */
   var EARLY_MIN = 25;
@@ -122,16 +118,14 @@
     }
 
     /* No id for this day. Rather than show a dead player while a session is
-       genuinely on stage, hand the viewer the two rooms that do exist. */
+       genuinely on stage, hand the viewer the room that always exists. */
     var box = $('.player__soon', frame);
     if (!box || $('.player__ways', box)) return;
     var ways = document.createElement('div');
     ways.className = 'player__ways';
     ways.innerHTML =
       '<a class="btn btn--gold" target="_blank" rel="noopener" ' +
-      'href="https://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09">Open the Zoom room</a>' +
-      '<a class="btn btn--ghost" target="_blank" rel="noopener" ' +
-      'href="' + CHANNEL_LIVE + '">Watch on YouTube</a>';
+      'href="https://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09">Open the Zoom room</a>';
     box.appendChild(ways);
     /* lets the CSS drop the fixed 16/9 box so the buttons cannot be clipped */
     player.classList.add('has-ways');
