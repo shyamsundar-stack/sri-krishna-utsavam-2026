@@ -439,12 +439,17 @@
           </div>
           <div>
             <dt>YouTube</dt>
-            <dd>Channel <b>SVMF</b>. Today's stream plays right here, in the player on this page.</dd>
+            <dd>Channel <b>SVMF</b>. Today's stream plays right here, in the player on this page.
+              <!-- href is rewritten every tick to the current day's broadcast; the
+                   channel /live URL is the fallback if the script never runs. -->
+              <a id="ytLink" href="https://www.youtube.com/@svmf5987/live" target="_blank" rel="noopener">Open today's stream on YouTube</a></dd>
           </div>
           <div>
             <dt>Facebook</dt>
             <dd>Page <b>Sripeetam Chennai</b>.
-              <a href="https://www.facebook.com/sripeetam.chennai/videos" target="_blank" rel="noopener">Watch on Facebook</a></dd>
+              <!-- the profile itself, not /videos: the videos tab opens on the
+                   archive, which sent viewers to last year's recordings -->
+              <a href="https://www.facebook.com/sripeetam.chennai" target="_blank" rel="noopener">Watch on Facebook</a></dd>
           </div>
           <div>
             <dt>Need help</dt>

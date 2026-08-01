@@ -97,7 +97,53 @@
   }
 
   var mountedDay = null;
+  /* the untouched "streaming opens soon" card, so a stale embed can be torn down */
+  var frameInitial = player ? $('.player__frame', player).innerHTML : null;
   function dayKey(e) { return (e.el.dataset.start || '').slice(0, 10); }
+
+  /* The festival day in IST, whatever timezone the viewer is in. en-CA renders
+     as YYYY-MM-DD, which is exactly how STREAMS is keyed. */
+  function istDateKey(d) {
+    return d.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+  }
+
+  /* Which day's broadcast is "the current one": today while the utsavam is on,
+     otherwise the next day still to come, and the final day once it is over. */
+  function streamDayFor(now) {
+    var today = istDateKey(now);
+    if (STREAMS[today]) return today;
+    var days = Object.keys(STREAMS).sort();
+    for (var i = 0; i < days.length; i++) {
+      if (days[i] > today) return days[i];
+    }
+    return days[days.length - 1];
+  }
+
+  /* Keeps the "Open today's stream on YouTube" link pointing at the right
+     broadcast every day, with no edit to this file while the utsavam runs. */
+  var ytLink = $('#ytLink');
+  function syncYouTubeLink(now) {
+    if (!ytLink) return;
+    var id = STREAMS[streamDayFor(now)];
+    if (!id) return;
+    var href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(id);
+    if (ytLink.getAttribute('href') !== href) ytLink.setAttribute('href', href);
+  }
+
+  /* Yesterday's embed must not sit in the player once its day is over: a tab
+     left open overnight would otherwise offer the previous day's recording. */
+  function unmountStream() {
+    if (!player || mountedDay === null || frameInitial === null) return;
+    var frame = $('.player__frame', player);
+    if (!frame) return;
+    frame.innerHTML = frameInitial;
+    player.classList.remove('has-ways');
+    mountedDay = null;
+    /* the card was rebuilt, so these three nodes are new */
+    pBadge = $('#playerBadge');
+    pHead = $('#playerHead');
+    pSub = $('#playerSub');
+  }
 
   function mountStream(day) {
     if (!player || !day || mountedDay === day) return;
@@ -135,6 +181,8 @@
   function tick() {
     var now = new Date();
     var live = currentEvent(now);
+
+    syncYouTubeLink(now);
 
     if (live !== lastNow) {
       events.forEach(function (e) { e.el.classList.toggle('is-now', e === live); });
@@ -212,6 +260,10 @@
          item, so early arrivals see YouTube's waiting room, then the feed */
       if (next && next.start - now < EARLY_MIN * 60000) {
         mountStream(dayKey(next));
+      } else if (mountedDay !== null && mountedDay !== (next ? dayKey(next) : null)) {
+        /* a finished day's embed is still sitting there; put the waiting card
+           back rather than leave yesterday's recording on offer */
+        unmountStream();
       }
     }
   }
