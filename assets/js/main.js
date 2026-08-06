@@ -239,7 +239,7 @@
 
   /* ── 4. REVEAL ON SCROLL ─────────────────────────────────── */
   if (hasIO && !reduceMotion) {
-    var targets = $$('.about__text, .about__art, .day, .card, .rec, .clip, .sec-head');
+    var targets = $$('.about__text, .about__art, .card, .rec, .clip, .sec-head');
     targets.forEach(function (el) { el.classList.add('reveal'); });
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {

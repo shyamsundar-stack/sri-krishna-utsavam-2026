@@ -41,16 +41,13 @@ The live-stream machinery from the festival week (the `STREAMS` map, countdown, 
 states, `Add to calendar` downloads) was removed after the event; it is in the git
 history should the 17th edition want it back.
 
-## The schedule (now an archive)
+## The schedule
 
-The schedule still lives **only** in `index.html`, one `<article class="event">` per
-session with `data-start`/`data-end` in IST. Nothing reads the timestamps any more, but
-they stay because they are the only machine-readable record of the programme.
-
-- `event--star` marks a billed performance: gold dot, portrait.
-- `event--rite` marks a short formality such as the lamp lighting.
-- Day 1's six formalities sit inside a `<details class="rites">` so the opening concert
-  is what you see first.
+Removed after the festival: post-event it duplicated the "Nine artists, six days"
+cards, which carry the same dates and times with the photographs. The full
+session-by-session markup (with `data-start`/`data-end` timestamps, the inauguration
+programme and the `<details class="rites">` block) is in the git history should the
+17th edition want it back.
 
 ## In the news
 

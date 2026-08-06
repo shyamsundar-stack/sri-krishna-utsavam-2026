@@ -38,7 +38,7 @@
 
   /* semantic layer scale, so nothing reaches for an arbitrary 999 */
   --z-decor:2;            /* scallop dividers                    */
-  --z-raised:3;           /* the visit card over the map          */
+  --z-raised:3;           /* controls raised above their surface  */
   --z-nav:50;
   --z-skip:100;
 
@@ -79,9 +79,6 @@ p{text-wrap:pretty}
 .section--cream :focus-visible,
 .btn--gold:focus-visible,
 .foot__logos :focus-visible{outline-color:var(--maroon-700)}
-/* the visit card is a maroon surface sitting inside a cream section, so it
-   has to win the ring colour back */
-.visit__card :focus-visible{outline-color:var(--gold-hi)}
 
 /* ── shared type ─────────────────────────────────────────── */
 .h2{font-size:clamp(1.95rem,1.3rem + 2.6vw,3.35rem);color:var(--ink);font-weight:400}
@@ -199,6 +196,26 @@ p{text-wrap:pretty}
     radial-gradient(40% 30% at 84% 90%, rgb(0 0 0 / .14),        transparent 70%);
 }
 
+/* the two organisation marks flank the hero top, as on the stream overlay.
+   They are blue-and-red artwork, so each sits on the same cream plaque the
+   footer gives them; sized to stay clear of the centred lineage strip even
+   on a 360px phone. */
+.hero__org{
+  position:absolute;top:calc(72px + clamp(.4rem,1.5vw,1.2rem));
+  width:clamp(52px,7.5vw,100px);height:auto;
+  background:var(--cream);border-radius:10px;padding:.45rem .5rem;
+  box-shadow:0 8px 22px -10px rgb(0 0 0 / .55);
+}
+.hero__org--sgap{left:clamp(.8rem,2.5vw,2.2rem)}
+.hero__org--svmf{right:clamp(.8rem,2.5vw,2.2rem)}
+@media (max-width:640px){
+  .hero__org{width:44px;padding:.3rem .35rem;top:calc(72px + .3rem)}
+}
+/* below this there is no clear water beside the lineage strip */
+@media (max-width:380px){
+  .hero__org{display:none}
+}
+
 /* the lineage strip, as it sits above the title on the printed cover */
 .hero__gurus{padding-top:72px;text-align:center}
 .hero__gurus img{
@@ -310,104 +327,6 @@ p{text-wrap:pretty}
 .about__art img{width:100%;filter:drop-shadow(0 22px 40px rgb(74 10 22 / .22))}
 
 /* ============================================================
-   SCHEDULE  (day rail + session list)
-   ============================================================ */
-.sched{position:relative;padding:clamp(6rem,11vw,10rem) 0 clamp(5rem,9vw,8rem);
-       background:linear-gradient(180deg,var(--maroon-800),var(--maroon-900))}
-
-.days{list-style:none;margin:0;padding:0;display:grid;gap:clamp(2.5rem,5vw,4rem)}
-.day{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:clamp(1.2rem,3vw,3rem);align-items:start}
-.day__mark{position:sticky;top:104px;padding-top:.3rem}
-.day__n{
-  display:block;font-family:var(--f-serif);font-size:clamp(1.6rem,1.2rem + 1.2vw,2.2rem);
-  color:var(--gold);line-height:1;
-  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;
-}
-.day__mark time{display:block;margin-top:.5rem;font-size:.94rem;
-                color:color-mix(in srgb,var(--cream) 80%,transparent)}
-
-.day__events{
-  display:grid;gap:.65rem;
-  border-left:1px solid color-mix(in srgb,var(--gold) 24%,transparent);
-  padding-left:clamp(1.2rem,3vw,2.4rem);
-}
-
-.event{
-  position:relative;display:grid;grid-template-columns:104px minmax(0,1fr);
-  gap:1.2rem;align-items:start;padding:1.15rem 1.3rem;border-radius:var(--r);
-  border:1px solid transparent;transition:background-color .3s,border-color .3s;
-}
-.event::before{
-  content:'';position:absolute;left:calc(-1 * clamp(1.2rem,3vw,2.4rem) - 4.5px);top:1.55rem;
-  width:8px;height:8px;border-radius:50%;
-  background:var(--maroon-900);border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);
-}
-.event--star::before{background:var(--gold);box-shadow:0 0 12px rgb(242 206 132 / .6)}
-.event--star{
-  background:linear-gradient(120deg,rgb(255 232 166 / .055),rgb(255 232 166 / .015));
-  border-color:color-mix(in srgb,var(--gold) 18%,transparent);
-  padding-right:clamp(1.3rem,10vw,7rem);
-}
-.event--star:hover{border-color:color-mix(in srgb,var(--gold) 42%,transparent);background:rgb(255 232 166 / .075)}
-.event--rite{opacity:.72}
-
-.event__time{margin:0;padding-top:.18rem;font-size:.92rem;letter-spacing:.04em;
-             color:var(--gold);font-variant-numeric:tabular-nums}
-.event__body{min-width:0}
-.event__kind{margin:0 0 .35rem;font-size:.88rem;color:color-mix(in srgb,var(--cream) 82%,transparent)}
-.event__who{font-size:clamp(1.15rem,.98rem + .7vw,1.55rem);color:var(--cream)}
-.event__who--sm{font-size:clamp(1rem,.95rem + .3vw,1.15rem);color:color-mix(in srgb,var(--cream) 84%,transparent)}
-.event__role{margin:.4rem 0 0;font-size:.9rem;color:color-mix(in srgb,var(--cream) 80%,transparent);max-width:48ch}
-
-.tag{
-  display:inline-block;padding:.16rem .6rem;border-radius:100px;
-  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;
-  border:1px solid currentColor;
-}
-.tag--music{color:var(--gold)}
-.tag--dance{color:var(--lotus)}
-.tag--talk{color:var(--krishna)}
-
-.event__face{
-  position:absolute;right:1.1rem;bottom:0;width:clamp(0px,9vw,104px);
-  object-fit:contain;object-position:bottom;opacity:.9;pointer-events:none;
-  -webkit-mask-image:linear-gradient(180deg,#000 62%,transparent);
-          mask-image:linear-gradient(180deg,#000 62%,transparent);
-}
-@media (max-width:900px){.event__face{display:none}}
-
-/* inline actions in prose get a little vertical room to be tappable */
-.visit__list a{display:inline-block;padding-block:.3rem}
-
-/* Day 1 opens with six short formalities. Collapsed by default so the
-   concert is what you actually see; expands on click, and the script
-   opens it automatically if one of those items is on stage. */
-.rites{border-radius:var(--r);border:1px dashed color-mix(in srgb,var(--gold) 26%,transparent)}
-.rites > summary{
-  display:grid;grid-template-columns:104px minmax(0,1fr);gap:1.2rem;align-items:baseline;
-  padding:1.15rem 1.3rem;cursor:pointer;list-style:none;border-radius:var(--r);
-}
-.rites > summary::-webkit-details-marker{display:none}
-.rites > summary:hover{background:rgb(255 232 166 / .05)}
-.rites__time{color:var(--gold);font-size:.92rem;font-variant-numeric:tabular-nums}
-.rites__label{color:color-mix(in srgb,var(--cream) 90%,transparent);font-size:1.05rem}
-.rites__label b{
-  display:block;font-weight:400;margin-top:.3rem;font-size:.9rem;
-  color:color-mix(in srgb,var(--cream) 76%,transparent);
-}
-/* real text, not ::after content, so screen readers actually announce it */
-.rites__toggle{
-  display:inline-block;margin-top:.5rem;font-size:.88rem;color:var(--gold);
-  border-bottom:1px solid color-mix(in srgb,var(--gold) 40%,transparent);
-}
-.rites__hide{display:none}
-.rites[open] .rites__show{display:none}
-.rites[open] .rites__hide{display:inline}
-.rites[open]{background:rgb(0 0 0 / .12)}
-.rites .event::before{display:none}
-.rites .event{padding-block:.8rem}
-
-/* ============================================================
    ARTISTS  (cut-out card grid)
    ============================================================ */
 .cards{
@@ -499,32 +418,6 @@ p{text-wrap:pretty}
 }
 .recs__note a{color:var(--gold);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--gold) 40%,transparent)}
 .recs__note a:hover{color:var(--gold-hi)}
-
-/* ============================================================
-   VISIT  (full-bleed map band with an overlaid detail card)
-   ============================================================ */
-.visit__band{position:relative;margin-top:clamp(1rem,3vw,2rem)}
-.visit__map{width:100%;height:clamp(340px,40vw,470px);overflow:hidden;
-            border-block:1px solid color-mix(in srgb,var(--ink) 18%,transparent)}
-.visit__map iframe{width:100%;height:100%;border:0;display:block;filter:saturate(.7) contrast(1.02)}
-
-.visit__card{
-  width:min(100% - 2.5rem,var(--wrap));margin-inline:auto;
-  background:var(--maroon-800);color:var(--cream);
-  border-radius:var(--r);padding:clamp(1.6rem,3vw,2.4rem);
-  box-shadow:0 28px 60px -26px rgb(74 10 22 / .75);
-  margin-top:-3.5rem;position:relative;z-index:var(--z-raised);
-}
-.visit__addr{font-style:normal;margin:0;font-size:clamp(1.05rem,.98rem + .4vw,1.2rem);line-height:1.6;color:var(--cream)}
-.visit__list{list-style:none;margin:1.6rem 0 0;padding:1.5rem 0 0;
-             border-top:1px solid color-mix(in srgb,var(--gold) 24%,transparent);
-             display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.4rem}
-.visit__list li{font-size:.94rem;color:color-mix(in srgb,var(--cream) 88%,transparent);line-height:1.6}
-.visit__list b{display:block;font-weight:500;font-size:.95rem;color:var(--gold);margin-bottom:.35rem}
-.visit__btns{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.8rem}
-/* the card clips part of the embed's own credit bar, so state it in the page */
-.visit__credit{width:min(100% - 2.5rem,var(--wrap));margin:1rem auto 0;font-size:.85rem;color:var(--ink-2)}
-.visit__credit a{color:var(--maroon-700)}
 
 /* ============================================================
    INVITE STRIP
@@ -718,16 +611,6 @@ dialog:not([open]){display:none}
   .nav__links a{padding:.95rem 0;border-bottom:1px solid rgb(255 232 166 / .1);font-size:1.02rem}
   .nav__cta{margin-top:1rem;text-align:center;justify-content:center;border-bottom:0 !important}
   .nav__toggle{display:flex}
-
-  .day{grid-template-columns:1fr;gap:1rem}
-  .day__mark{position:static;display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap}
-  .day__mark time{margin-top:0}
-  .event{grid-template-columns:1fr;gap:.35rem;padding:1rem 1.1rem}
-  .event--star{padding-right:1.1rem}
-  .event::before{top:1.35rem}
-  .event__time{padding-top:0}
-
-  .visit__card{margin-top:-2rem}
 }
 
 /* Phones: stand the artist cards up as rows. Stacked, a portrait cut-out is
