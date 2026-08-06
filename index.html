@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sri Krishna Utsavam 2026, 16th Edition | Bharatiya Vidya Bhavan, Chennai</title>
-<meta name="description" content="Six days of Carnatic music, classical dance and discourse. 31 July to 5 August 2026 at Bharatiya Vidya Bhavan, Mylapore, Chennai. Free entry, streamed live. Presented by Sri Vishnu Mohan Foundation and Sri Gnana Advaitha Peetam.">
+<meta name="description" content="Six days of Carnatic music, classical dance and discourse, held 31 July to 5 August 2026 at Bharatiya Vidya Bhavan, Mylapore, Chennai. Watch the recordings of all six days. Presented by Sri Vishnu Mohan Foundation and Sri Gnana Advaitha Peetam.">
 <meta name="theme-color" content="#6E0018">
 <!-- Chrome on Android auto-darkens pages that do not declare a scheme, which
      turns the cream sections muddy brown and the maroon near-black. This page
@@ -25,7 +25,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Sri Krishna Utsavam">
 <meta property="og:title" content="Sri Krishna Utsavam 2026, 16th Edition">
-<meta property="og:description" content="Six days of music, dance and discourse. 31 July to 5 August 2026, Bharatiya Vidya Bhavan, Mylapore, Chennai. Free entry.">
+<meta property="og:description" content="The sixteenth utsavam concluded on 5 August 2026, its streams watched more than 14,500 times. Watch the recordings of all six days.">
 <meta property="og:image" content="https://shyamsundar-stack.github.io/sri-krishna-utsavam-2026/assets/img/share.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -55,7 +55,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="#schedule">Schedule</a>
       <a href="#artists">Artists</a>
       <a href="#visit">Visit</a>
-      <a class="nav__cta" href="#watch">Watch live</a>
+      <!-- unhide together with the #press section once clippings are in -->
+      <a href="#press" id="pressLink" hidden>In the news</a>
+      <a class="nav__cta" href="#watch">Recordings</a>
     </nav>
     <button class="nav__toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks">
       <span class="sr-only">Menu</span>
@@ -81,7 +83,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="hero__copy">
         <p class="presents"><b>Sri Gnana Advaitha Peetam</b> and
         <b>Sri Vishnu Mohan Foundation</b> along with <b>Bharatiya Vidya Bhavan</b>
-        <span>present</span></p>
+        <span>presented</span></p>
 
         <h1 class="hero__mark">
           <img src="assets/img/wordmark.webp" alt="Sri Krishna Utsavam" width="1138" height="473" fetchpriority="high">
@@ -90,23 +92,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="hero__when">
           <span class="hero__edition">16<sup>th</sup>&nbsp;Edition</span>
           <span class="hero__dates">31 July to 5 August 2026</span>
-          <span class="hero__where">Bharatiya Vidya Bhavan, Mylapore, Chennai. Free entry.</span>
+          <span class="hero__where">Bharatiya Vidya Bhavan, Mylapore, Chennai. Entry was free for all.</span>
         </p>
 
         <div class="hero__actions">
-          <a class="btn btn--gold" href="#schedule">See all six days</a>
-          <a class="btn btn--ghost" href="#watch" id="watchCta">Watch live</a>
+          <a class="btn btn--gold" href="#watch">Watch the recordings</a>
+          <a class="btn btn--ghost" href="#schedule">See all six days</a>
         </div>
 
-        <div class="count" id="countdown">
-          <p class="count__label" id="countLabel">The utsavam begins in</p>
-          <div class="count__grid" id="countGrid" aria-hidden="true">
-            <div class="count__unit"><b data-unit="d">0</b><span>days</span></div>
-            <div class="count__unit"><b data-unit="h">00</b><span>hrs</span></div>
-            <div class="count__unit"><b data-unit="m">00</b><span>min</span></div>
-            <div class="count__unit"><b data-unit="s">00</b><span>sec</span></div>
-          </div>
-          <p class="count__next" id="countNext" aria-live="polite"></p>
+        <div class="count">
+          <p class="count__label">Concluded, with gratitude</p>
+          <p class="count__next">Across six days and nine performances, the streams were
+          watched more than <b>14,500 times</b>, from across India and overseas.
+          Thank you for being part of the sixteenth utsavam.
+          <a href="#watch">Watch the recordings</a>.</p>
         </div>
       </div>
 
@@ -147,6 +146,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li><b>9</b><span>Concerts, recitals and discourses</span></li>
           <li><b>16<sup>th</sup></b><span>Edition</span></li>
           <li><b>Free</b><span>Entry for all</span></li>
+          <li><b>14,500+</b><span>Times the streams were watched</span></li>
         </ul>
       </div>
 
@@ -163,9 +163,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="wrap">
       <header class="sec-head">
         <h2 class="h2 h2--light" id="sched-h">Schedule of events</h2>
-        <p class="sec-head__note">Six days at Bharatiya Vidya Bhavan (Main Hall), Mylapore.
-        Sessions are in the evening, except Sunday, which begins at 11:00 am.
-        All times Indian Standard Time. Entry is free and open to all.</p>
+        <p class="sec-head__note">Six days at Bharatiya Vidya Bhavan (Main Hall), Mylapore,
+        from 31 July to 5 August 2026. Sessions were in the evening, except Sunday,
+        which began at 11:00 am. Entry was free and open to all, and every
+        session was streamed live.</p>
       </header>
 
       <ol class="days">
@@ -230,9 +231,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--music">Carnatic vocal</span></p>
                 <h3 class="event__who">Vid. S. Saketaraman</h3>
-                <p class="event__role">and team</p>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
-              </div>
+                <p class="event__role">and team</p>              </div>
               <img class="event__face" src="assets/img/artist-saketaraman.webp" alt="" width="837" height="900" loading="lazy" decoding="async">
             </article>
           </div>
@@ -245,9 +244,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <p class="event__time"><time datetime="2026-08-01T16:30+05:30">4:30 pm</time></p>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--talk">Discourse</span> on Sri Gopala Vimshati</p>
-                <h3 class="event__who">Sri. Dushyanth Sridhar</h3>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
-              </div>
+                <h3 class="event__who">Sri. Dushyanth Sridhar</h3>              </div>
               <img class="event__face" src="assets/img/artist-dushyanth.webp" alt="" width="852" height="900" loading="lazy" decoding="async">
             </article>
             <article class="event event--star" data-start="2026-08-01T17:45:00+05:30" data-end="2026-08-01T20:00:00+05:30">
@@ -255,9 +252,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--music">Carnatic vocal</span></p>
                 <h3 class="event__who">Trichur Brothers</h3>
-                <p class="event__role">and team</p>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
-              </div>
+                <p class="event__role">and team</p>              </div>
               <img class="event__face" src="assets/img/artist-trichur.webp" alt="" width="900" height="494" loading="lazy" decoding="async">
             </article>
           </div>
@@ -270,9 +265,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <p class="event__time"><time datetime="2026-08-02T11:00+05:30">11:00 am</time></p>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--talk">Discourse</span></p>
-                <h3 class="event__who">Vid. Suchithra Balasubramanian</h3>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
-              </div>
+                <h3 class="event__who">Vid. Suchithra Balasubramanian</h3>              </div>
               <img class="event__face" src="assets/img/artist-suchithra.webp" alt="" width="760" height="889" loading="lazy" decoding="async">
             </article>
           </div>
@@ -286,18 +279,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--music">Carnatic vocal</span></p>
                 <h3 class="event__who">Dr. Vaishnavi Ramadas</h3>
-                <p class="event__role">and team</p>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
-              </div>
+                <p class="event__role">and team</p>              </div>
               <img class="event__face" src="assets/img/artist-vaishnavi.webp" alt="" width="832" height="900" loading="lazy" decoding="async">
             </article>
             <article class="event event--star" data-start="2026-08-03T19:00:00+05:30" data-end="2026-08-03T20:30:00+05:30">
               <p class="event__time"><time datetime="2026-08-03T19:00+05:30">7:00 pm</time></p>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--dance">Odissi</span> dance recital</p>
-                <h3 class="event__who">Dr. Sujata Mohapatra</h3>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
-              </div>
+                <h3 class="event__who">Dr. Sujata Mohapatra</h3>              </div>
               <img class="event__face" src="assets/img/artist-sujata.webp" alt="" width="368" height="792" loading="lazy" decoding="async">
             </article>
           </div>
@@ -310,9 +299,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <p class="event__time"><time datetime="2026-08-04T17:45+05:30">5:45 pm</time></p>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--dance">Mohiniyattam</span> dance recital</p>
-                <h3 class="event__who">Dr. Gopika Varma</h3>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
-              </div>
+                <h3 class="event__who">Dr. Gopika Varma</h3>              </div>
               <img class="event__face" src="assets/img/artist-gopika.webp" alt="" width="601" height="828" loading="lazy" decoding="async">
             </article>
             <article class="event event--star" data-start="2026-08-04T19:00:00+05:30" data-end="2026-08-04T20:30:00+05:30">
@@ -320,9 +307,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--dance">Bharatanatyam</span> dance recital</p>
                 <h3 class="event__who">Vid. Padmini Krishnamurthy and students</h3>
-                <p class="event__role">Sri Saraswathy Gana Nilayam Trust</p>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
-              </div>
+                <p class="event__role">Sri Saraswathy Gana Nilayam Trust</p>              </div>
               <img class="event__face" src="assets/img/artist-padmini.webp" alt="" width="900" height="717" loading="lazy" decoding="async">
             </article>
           </div>
@@ -335,9 +320,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <p class="event__time"><time datetime="2026-08-05T17:30+05:30">5:30 pm</time></p>
               <div class="event__body">
                 <p class="event__kind"><span class="tag tag--talk">Discourse</span></p>
-                <h3 class="event__who">U. Ve. Sri. Dhamal Ramakrishnan</h3>
-                <button class="ics" type="button" data-ics><span>Add to calendar</span></button>
-              </div>
+                <h3 class="event__who">U. Ve. Sri. Dhamal Ramakrishnan</h3>              </div>
               <img class="event__face" src="assets/img/artist-dhamal.webp" alt="" width="853" height="791" loading="lazy" decoding="async">
             </article>
           </div>
@@ -360,7 +343,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li class="card card--lead">
           <div class="card__pic"><img src="assets/img/artist-saketaraman.webp" alt="" width="837" height="900" loading="lazy" decoding="async"></div>
           <div class="card__txt">
-            <p class="card__when">Opens the utsavam <time datetime="2026-07-31T18:00+05:30">Friday 31 July, 6:00 pm</time></p>
+            <p class="card__when">Opened the utsavam <time datetime="2026-07-31T18:00+05:30">Friday 31 July, 6:00 pm</time></p>
             <h3>Vid. S. Saketaraman</h3>
             <p class="card__kind">Carnatic vocal concert</p>
           </div>
@@ -433,56 +416,110 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- ───────────────────────── WATCH LIVE ───────────────────────── -->
+  <!-- ───────────────────────── RECORDINGS ───────────────────────── -->
   <section class="watch" id="watch" aria-labelledby="watch-h">
     <div class="scallop scallop--dip" aria-hidden="true"></div>
 
-    <div class="wrap watch__in">
-      <div class="watch__copy">
-        <p class="eyebrow">Wherever you are</p>
-        <h2 class="h2 h2--light" id="watch-h">Watch the utsavam live</h2>
-        <p class="lead lead--light">Every session is streamed from the Bhavan hall. The player
-        opens a few minutes before each performance. No ticket, no sign-up.</p>
+    <div class="wrap">
+      <header class="sec-head">
+        <h2 class="h2 h2--light" id="watch-h">Watch the recordings</h2>
+        <p class="sec-head__note">All six days were streamed live from the Bhavan hall,
+        and every recording is kept here. Choose a day and press play.
+        No ticket, no sign-up.</p>
+      </header>
 
-        <dl class="watch__meta">
-          <div>
-            <dt>Zoom</dt>
-            <dd>Meeting ID <b>876 9213 5267</b>, password <b>Krishna</b>.
-              <a href="https://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09" target="_blank" rel="noopener">Join the Zoom room</a></dd>
+      <!-- The embed mounts only when a card is tapped: six iframes on load
+           would cost this audience's phones dearly for no benefit. -->
+      <ul class="recs" role="list">
+        <li class="rec">
+          <div class="rec__frame">
+            <button class="rec__play" type="button" data-video="Tb1eBjKZ4aE" data-day="1"
+              aria-label="Play the Day 1 recording: inauguration, and Carnatic vocal by Vid. S. Saketaraman">
+              <img class="rec__thumb" src="https://i.ytimg.com/vi/Tb1eBjKZ4aE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="rec__badge" aria-hidden="true"></span>
+            </button>
           </div>
-          <div>
-            <dt>YouTube</dt>
-            <dd>Channel <b>SVMF</b>. Today's stream plays right here, in the player on this page.
-              <!-- href is rewritten every tick to the current day's broadcast; the
-                   channel /live URL is the fallback if the script never runs. -->
-              <a id="ytLink" href="https://www.youtube.com/@svmf5987/live" target="_blank" rel="noopener">Open today's stream on YouTube</a></dd>
+          <div class="rec__txt">
+            <p class="rec__day">Day 1, Friday 31 July</p>
+            <h3 class="rec__who">Vid. S. Saketaraman</h3>
+            <p class="rec__kind">Inauguration, then a Carnatic vocal concert</p>
           </div>
-          <div>
-            <dt>Facebook</dt>
-            <dd>Page <b>Sripeetam Chennai</b>.
-              <!-- the profile itself, not /videos: the videos tab opens on the
-                   archive, which sent viewers to last year's recordings -->
-              <a href="https://www.facebook.com/sripeetam.chennai" target="_blank" rel="noopener">Watch on Facebook</a></dd>
+        </li>
+        <li class="rec">
+          <div class="rec__frame">
+            <button class="rec__play" type="button" data-video="-U0Hn4vArB4" data-day="2"
+              aria-label="Play the Day 2 recording: discourse by Sri. Dushyanth Sridhar, and Carnatic vocal by the Trichur Brothers">
+              <img class="rec__thumb" src="https://i.ytimg.com/vi/-U0Hn4vArB4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="rec__badge" aria-hidden="true"></span>
+            </button>
           </div>
-          <div>
-            <dt>Need help</dt>
-            <dd>Sri. M Ramadas, <a href="tel:+919442543657">+91 94425 43657</a></dd>
+          <div class="rec__txt">
+            <p class="rec__day">Day 2, Saturday 1 August</p>
+            <h3 class="rec__who">Sri. Dushyanth Sridhar, and the Trichur Brothers</h3>
+            <p class="rec__kind">Discourse on Sri Gopala Vimshati, then a Carnatic vocal concert</p>
           </div>
-        </dl>
-      </div>
+        </li>
+        <li class="rec">
+          <div class="rec__frame">
+            <button class="rec__play" type="button" data-video="FXx2Y5HCRCE" data-day="3"
+              aria-label="Play the Day 3 recording: discourse by Vid. Suchithra Balasubramanian">
+              <img class="rec__thumb" src="https://i.ytimg.com/vi/FXx2Y5HCRCE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="rec__badge" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="rec__txt">
+            <p class="rec__day">Day 3, Sunday 2 August</p>
+            <h3 class="rec__who">Vid. Suchithra Balasubramanian</h3>
+            <p class="rec__kind">Morning discourse</p>
+          </div>
+        </li>
+        <li class="rec">
+          <div class="rec__frame">
+            <button class="rec__play" type="button" data-video="KZUKT2Vdfvs" data-day="4"
+              aria-label="Play the Day 4 recording: Carnatic vocal by Dr. Vaishnavi Ramadas, and Odissi by Dr. Sujata Mohapatra">
+              <img class="rec__thumb" src="https://i.ytimg.com/vi/KZUKT2Vdfvs/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="rec__badge" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="rec__txt">
+            <p class="rec__day">Day 4, Monday 3 August</p>
+            <h3 class="rec__who">Dr. Vaishnavi Ramadas, and Dr. Sujata Mohapatra</h3>
+            <p class="rec__kind">Carnatic vocal concert, then an Odissi recital</p>
+          </div>
+        </li>
+        <li class="rec">
+          <div class="rec__frame">
+            <button class="rec__play" type="button" data-video="-KwUPPhh6-4" data-day="5"
+              aria-label="Play the Day 5 recording: Mohiniyattam by Dr. Gopika Varma, and Bharatanatyam by Vid. Padmini Krishnamurthy and students">
+              <img class="rec__thumb" src="https://i.ytimg.com/vi/-KwUPPhh6-4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="rec__badge" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="rec__txt">
+            <p class="rec__day">Day 5, Tuesday 4 August</p>
+            <h3 class="rec__who">Dr. Gopika Varma, and Vid. Padmini Krishnamurthy with students</h3>
+            <p class="rec__kind">Mohiniyattam, then a Bharatanatyam recital</p>
+          </div>
+        </li>
+        <li class="rec">
+          <div class="rec__frame">
+            <button class="rec__play" type="button" data-video="-8TDELKioSc" data-day="6"
+              aria-label="Play the Day 6 recording: discourse by U. Ve. Sri. Dhamal Ramakrishnan">
+              <img class="rec__thumb" src="https://i.ytimg.com/vi/-8TDELKioSc/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+              <span class="rec__badge" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="rec__txt">
+            <p class="rec__day">Day 6, Wednesday 5 August</p>
+            <h3 class="rec__who">U. Ve. Sri. Dhamal Ramakrishnan</h3>
+            <p class="rec__kind">Closing discourse</p>
+          </div>
+        </li>
+      </ul>
 
-      <!-- To go live, set STREAM_URL in assets/js/main.js. The script then replaces
-           .player__soon with the real embed as soon as a scheduled session starts. -->
-      <div class="player" id="player" data-state="soon">
-        <div class="player__frame">
-          <div class="player__soon">
-            <span class="player__badge" id="playerBadge">Streaming opens soon</span>
-            <p class="player__head" id="playerHead">The stream begins on Day 1</p>
-            <p class="player__sub" id="playerSub">Friday 31 July 2026, 5:15 pm IST</p>
-          </div>
-        </div>
-        <p class="player__cap">Streamed on Zoom, YouTube and Facebook at the same time.</p>
-      </div>
+      <p class="recs__note">The recordings also live on the
+        <a href="https://www.youtube.com/@svmf5987" target="_blank" rel="noopener">SVMF YouTube channel</a>.
+        Subscribe there and YouTube will tell you when next year's utsavam streams.</p>
     </div>
   </section>
 
@@ -511,11 +548,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           Chennai 600 004
         </address>
         <ul class="visit__list">
+          <li><b>The venue</b>The 16<sup>th</sup> utsavam was held in the Main Hall from 31 July to 5 August 2026, with free entry for all.</li>
           <li><b>Getting there</b>The hall is on East Mada Street, near the Kapaleeswarar temple. Thirumayilai MRTS station is a short walk away.</li>
-          <li><b>Doors and seating</b>Open thirty minutes before the first session. Seating is unreserved, so come early for the concerts.</li>
-          <li><b>Tickets</b>None. Entry is free and open to all, and no registration is needed.</li>
-          <li><b>Language</b>The discourses are in Tamil, with verses in Sanskrit.</li>
-          <li><b>Trouble with the stream</b>Call Sri. M Ramadas on <a href="tel:+919442543657">+91 94425 43657</a>.</li>
+          <li><b>Language</b>The discourses were in Tamil, with verses in Sanskrit.</li>
         </ul>
         <div class="visit__btns">
           <a class="btn btn--gold" href="https://maps.google.com/?q=Bharatiya+Vidya+Bhavan,+East+Mada+Street,+Mylapore,+Chennai+600004" target="_blank" rel="noopener">Open in Maps</a>
@@ -531,9 +566,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="scallop scallop--dip" aria-hidden="true"></div>
     <div class="wrap">
       <header class="sec-head">
-        <h2 class="h2 h2--light" id="invite-h">Send the invitation</h2>
-        <p class="sec-head__note">These are the printed cards. Tap any one to send it to
-        family and friends, with the note already written for you.</p>
+        <h2 class="h2 h2--light" id="invite-h">The invitation cards</h2>
+        <p class="sec-head__note">The printed cards that went out for each day, kept here
+        as a keepsake. Tap any one to save it, or to send it on with a note
+        pointing to the recordings.</p>
       </header>
     </div>
 
@@ -542,7 +578,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="poster" type="button" aria-label="Share the invitation cover"
           data-img="cover" data-anchor=""
           data-who="the utsavam"
-          data-msg="You are invited to the 16th Sri Krishna Utsavam, six days of Carnatic music, classical dance and discourse, from 31 July to 5 August 2026.">
+          data-msg="The 16th Sri Krishna Utsavam, six days of Carnatic music, classical dance and discourse, was held from 31 July to 5 August 2026. All six days were streamed, and watched more than 14,500 times.">
           <img src="assets/img/posters/cover.webp" alt="" width="900" height="1273" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -551,7 +587,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="poster" type="button" aria-label="Share the card for Vid. S. Saketaraman"
           data-img="day1-saketaraman" data-anchor="#day-1"
           data-who="Vid. S. Saketaraman"
-          data-msg="Vid. S. Saketaraman sings at the 16th Sri Krishna Utsavam. Carnatic vocal concert on Friday 31 July at 6:00 pm.">
+          data-msg="Vid. S. Saketaraman sang at the 16th Sri Krishna Utsavam, opening it with a Carnatic vocal concert on Friday 31 July.">
           <img src="assets/img/posters/day1-saketaraman.webp" alt="" width="900" height="1273" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -560,7 +596,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="poster" type="button" aria-label="Share the card for Sri. Dushyanth Sridhar"
           data-img="day2-dushyanth" data-anchor="#day-2"
           data-who="Sri. Dushyanth Sridhar"
-          data-msg="Sri. Dushyanth Sridhar speaks at the 16th Sri Krishna Utsavam. Discourse on Sri Gopala Vimshati, Saturday 1 August at 4:30 pm.">
+          data-msg="Sri. Dushyanth Sridhar spoke at the 16th Sri Krishna Utsavam. Discourse on Sri Gopala Vimshati, Saturday 1 August.">
           <img src="assets/img/posters/day2-dushyanth.webp" alt="" width="900" height="1273" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -569,7 +605,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="poster" type="button" aria-label="Share the card for the Trichur Brothers"
           data-img="day2-trichur" data-anchor="#day-2"
           data-who="the Trichur Brothers"
-          data-msg="The Trichur Brothers sing at the 16th Sri Krishna Utsavam. Carnatic vocal concert on Saturday 1 August at 5:45 pm.">
+          data-msg="The Trichur Brothers sang at the 16th Sri Krishna Utsavam. Carnatic vocal concert on Saturday 1 August.">
           <img src="assets/img/posters/day2-trichur.webp" alt="" width="900" height="1273" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -578,7 +614,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="poster" type="button" aria-label="Share the card for Vid. Suchithra Balasubramanian"
           data-img="day3-suchithra" data-anchor="#day-3"
           data-who="Vid. Suchithra Balasubramanian"
-          data-msg="Vid. Suchithra Balasubramanian speaks at the 16th Sri Krishna Utsavam. Discourse on Sunday 2 August at 11:00 am.">
+          data-msg="Vid. Suchithra Balasubramanian spoke at the 16th Sri Krishna Utsavam. Morning discourse on Sunday 2 August.">
           <img src="assets/img/posters/day3-suchithra.webp" alt="" width="900" height="1273" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -587,7 +623,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="poster" type="button" aria-label="Share the card for Dr. Vaishnavi Ramadas"
           data-img="day4-vaishnavi" data-anchor="#day-4"
           data-who="Dr. Vaishnavi Ramadas"
-          data-msg="Dr. Vaishnavi Ramadas sings at the 16th Sri Krishna Utsavam. Carnatic vocal concert on Monday 3 August at 5:45 pm.">
+          data-msg="Dr. Vaishnavi Ramadas sang at the 16th Sri Krishna Utsavam. Carnatic vocal concert on Monday 3 August.">
           <img src="assets/img/posters/day4-vaishnavi.webp" alt="" width="900" height="1273" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -596,7 +632,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="poster" type="button" aria-label="Share the card for Dr. Sujata Mohapatra"
           data-img="day4-sujata" data-anchor="#day-4"
           data-who="Dr. Sujata Mohapatra"
-          data-msg="Dr. Sujata Mohapatra dances at the 16th Sri Krishna Utsavam. Odissi recital on Monday 3 August at 7:00 pm.">
+          data-msg="Dr. Sujata Mohapatra danced at the 16th Sri Krishna Utsavam. Odissi recital on Monday 3 August.">
           <img src="assets/img/posters/day4-sujata.webp" alt="" width="900" height="1273" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -605,7 +641,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="poster" type="button" aria-label="Share the card for Dr. Gopika Varma"
           data-img="day5-gopika" data-anchor="#day-5"
           data-who="Dr. Gopika Varma"
-          data-msg="Dr. Gopika Varma dances at the 16th Sri Krishna Utsavam. Mohiniyattam recital on Tuesday 4 August at 5:45 pm.">
+          data-msg="Dr. Gopika Varma danced at the 16th Sri Krishna Utsavam. Mohiniyattam recital on Tuesday 4 August.">
           <img src="assets/img/posters/day5-gopika.webp" alt="" width="900" height="1273" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -614,7 +650,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="poster" type="button" aria-label="Share the card for Vid. Padmini Krishnamurthy and her students"
           data-img="day5-padmini" data-anchor="#day-5"
           data-who="Vid. Padmini Krishnamurthy and her students"
-          data-msg="Vid. Padmini Krishnamurthy and her students dance at the 16th Sri Krishna Utsavam. Bharatanatyam recital on Tuesday 4 August at 7:00 pm.">
+          data-msg="Vid. Padmini Krishnamurthy and her students danced at the 16th Sri Krishna Utsavam. Bharatanatyam recital on Tuesday 4 August.">
           <img src="assets/img/posters/day5-padmini.webp" alt="" width="900" height="1273" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
@@ -623,11 +659,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="poster" type="button" aria-label="Share the card for U. Ve. Sri. Dhamal Ramakrishnan"
           data-img="day6-dhamal" data-anchor="#day-6"
           data-who="U. Ve. Sri. Dhamal Ramakrishnan"
-          data-msg="U. Ve. Sri. Dhamal Ramakrishnan speaks at the 16th Sri Krishna Utsavam. Discourse on Wednesday 5 August at 5:30 pm.">
+          data-msg="U. Ve. Sri. Dhamal Ramakrishnan spoke at the 16th Sri Krishna Utsavam. Closing discourse on Wednesday 5 August.">
           <img src="assets/img/posters/day6-dhamal.webp" alt="" width="900" height="1273" loading="lazy" decoding="async">
           <span class="poster__cue" aria-hidden="true">Share</span>
         </button>
       </li>
+    </ul>
+  </section>
+
+  <!-- ───────────────────────── IN THE NEWS ─────────────────────────
+       Hidden until the newspaper clippings are added. To publish:
+       1. Drop clipping scans into assets/img/press/ (webp, ~900px wide).
+       2. Copy the commented <li> below once per clipping and fill in the
+          image, publication name and date.
+       3. Remove the hidden attribute here AND on the #pressLink nav item. -->
+  <section class="press section--cream" id="press" aria-labelledby="press-h" hidden>
+    <div class="scallop scallop--rise" aria-hidden="true"></div>
+    <div class="wrap">
+      <header class="sec-head sec-head--dark">
+        <h2 class="h2" id="press-h">In the news</h2>
+        <p class="sec-head__note">What the papers wrote about the sixteenth utsavam.
+        Tap a clipping to read it full size.</p>
+      </header>
+    </div>
+
+    <ul class="strip strip--press" role="list">
+      <!--
+      <li>
+        <figure class="clip">
+          <a href="assets/img/press/the-hindu-2026-08-02.webp" target="_blank" rel="noopener">
+            <img src="assets/img/press/the-hindu-2026-08-02.webp"
+                 alt="Newspaper clipping about the Sri Krishna Utsavam"
+                 width="900" height="1200" loading="lazy" decoding="async">
+          </a>
+          <figcaption><b>The Hindu</b> 2 August 2026</figcaption>
+        </figure>
+      </li>
+      -->
     </ul>
   </section>
 
@@ -699,7 +767,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   "@type": "Festival",
   "name": "Sri Krishna Utsavam 2026",
   "alternateName": "16th Sri Krishna Utsavam",
-  "description": "Six days of Carnatic music, classical dance and discourse celebrating Sri Krishna.",
+  "description": "Six days of Carnatic music, classical dance and discourse celebrating Sri Krishna, held 31 July to 5 August 2026. Recordings of all six days are on the festival page.",
   "startDate": "2026-07-31T17:15:00+05:30",
   "endDate": "2026-08-05T19:00:00+05:30",
   "eventStatus": "https://schema.org/EventScheduled",

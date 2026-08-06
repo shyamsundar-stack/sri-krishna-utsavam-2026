@@ -118,13 +118,6 @@ p{text-wrap:pretty}
 .btn--outline{border-color:color-mix(in srgb,var(--ink) 28%,transparent);color:var(--ink)}
 .btn--outline:hover{border-color:var(--ink);background:rgb(74 10 22 / .06)}
 
-/* the live pip appears only while a session is actually on stage */
-.btn.is-live::before{
-  content:'';width:8px;height:8px;border-radius:50%;background:var(--live);
-  box-shadow:0 0 0 0 rgb(255 91 110 / .55);animation:pulse 2.2s infinite;
-}
-@keyframes pulse{70%{box-shadow:0 0 0 9px rgb(255 91 110 / 0)}100%{box-shadow:0 0 0 0 rgb(255 91 110 / 0)}}
-
 /* ── scallop divider ──────────────────────────────────────
    The cream shape always does the moving, as it does in print.
    --rise : cream swells up into the maroon above it
@@ -259,37 +252,16 @@ p{text-wrap:pretty}
 }
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 
-/* countdown: a hairline strip inside the hero column, not a widget */
-.count{margin-top:clamp(2rem,4vw,2.8rem);padding-top:1.5rem;
+/* the concluded strip: a hairline strip inside the hero column, not a widget */
+.count{margin-top:clamp(2rem,4vw,2.8rem);padding-top:1.5rem;max-width:34rem;
        border-top:1px solid color-mix(in srgb,var(--gold) 30%,transparent)}
 .count__label{
   font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;font-weight:500;
   color:var(--gold);margin:0 0 .9rem;
 }
-.count__grid{display:flex;flex-wrap:wrap;gap:clamp(1.4rem,3.2vw,2.6rem)}
-.count__grid[hidden]{display:none}      /* the class selector would beat [hidden] */
-.count__unit b{
-  display:block;font-family:var(--f-serif);font-weight:500;
-  font-size:clamp(2.1rem,1.4rem + 1.9vw,2.9rem);line-height:1;color:var(--cream);
-  font-variant-numeric:lining-nums tabular-nums;font-feature-settings:"lnum" 1,"tnum" 1;
-}
-.count__unit span{
-  display:block;margin-top:.4rem;font-size:.82rem;
-  color:color-mix(in srgb,var(--gold) 95%,transparent);
-}
-.count__next{margin:1.2rem 0 0;font-size:.97rem;color:color-mix(in srgb,var(--cream) 88%,transparent)}
+.count__next{margin:0;font-size:.97rem;color:color-mix(in srgb,var(--cream) 88%,transparent)}
 .count__next b{color:var(--cream);font-weight:500}
 .count__next a{color:var(--gold)}
-
-.count.is-live .count__label{
-  color:var(--live);display:inline-flex;align-items:center;gap:.6rem;
-  padding:.4rem 1rem;border-radius:100px;border:1px solid rgb(255 138 150 / .45);
-}
-.count.is-live .count__label::before{
-  content:'';width:8px;height:8px;border-radius:50%;background:var(--live);
-  box-shadow:0 0 0 0 rgb(255 91 110 / .6);animation:pulse 2.2s infinite;
-}
-.count.is-live .count__next{font-size:clamp(1.05rem,.95rem + .5vw,1.3rem);color:color-mix(in srgb,var(--cream) 90%,transparent)}
 
 /* ============================================================
    SECTION SHELLS
@@ -404,24 +376,8 @@ p{text-wrap:pretty}
 }
 @media (max-width:900px){.event__face{display:none}}
 
-/* 44px tall tap target: this is a primary action and the audience is
-   largely on phones. The underline still sits tight under the words. */
-.ics{
-  margin-top:.5rem;background:none;border:0;cursor:pointer;
-  display:inline-flex;align-items:center;min-height:44px;padding:0;
-  font-family:var(--f-sans);font-size:.9rem;font-weight:500;
-  color:var(--gold);transition:color .25s;
-}
-.ics > span{border-bottom:1px solid color-mix(in srgb,var(--gold) 45%,transparent);padding-bottom:2px}
-.ics:hover{color:var(--gold-hi)}
-.ics:hover > span{border-color:var(--gold-hi)}
-.ics.is-done > span{border-color:transparent}
-
 /* inline actions in prose get a little vertical room to be tappable */
-.watch__meta a,.visit__list a{display:inline-block;padding-block:.3rem}
-
-.event.is-now{border-color:var(--live) !important;background:rgb(255 138 150 / .09) !important}
-.event.is-now .event__time::after{content:' on now';color:var(--live);font-weight:500}
+.visit__list a{display:inline-block;padding-block:.3rem}
 
 /* Day 1 opens with six short formalities. Collapsed by default so the
    concert is what you actually see; expands on click, and the script
@@ -491,47 +447,58 @@ p{text-wrap:pretty}
 .card__kind{margin:.5rem 0 0 !important;font-size:.88rem;color:color-mix(in srgb,var(--cream) 82%,transparent) !important}
 
 /* ============================================================
-   WATCH LIVE  (copy + player)
+   RECORDINGS  (one card per festival day)
    ============================================================ */
 .watch{position:relative;padding:clamp(6rem,11vw,10rem) 0 clamp(5rem,9vw,8rem);
        background:radial-gradient(90% 70% at 78% 40%,var(--maroon-700),var(--maroon-900) 78%)}
-.watch__in{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(2rem,5vw,4.5rem);align-items:center}
 
-.watch__meta{margin:2.4rem 0 0;display:grid;gap:1.3rem}
-.watch__meta > div{padding-top:1.3rem;border-top:1px solid color-mix(in srgb,var(--gold) 22%,transparent)}
-.watch__meta dt{font-size:.95rem;font-weight:500;color:var(--gold);margin-bottom:.4rem}
-.watch__meta dd{margin:0;font-size:.96rem;color:color-mix(in srgb,var(--cream) 90%,transparent);line-height:1.6}
-.watch__meta b{font-weight:500;color:var(--cream)}
-.watch__meta a{color:var(--gold);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--gold) 40%,transparent)}
-.watch__meta a:hover{color:var(--gold-hi)}
+.recs{
+  list-style:none;margin:0;padding:0;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:clamp(2rem,4vw,3rem) clamp(1.4rem,2.6vw,2.2rem);
+}
+.rec__frame{
+  position:relative;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;
+  border:1px solid color-mix(in srgb,var(--gold) 30%,transparent);
+  background:var(--maroon-900);
+  box-shadow:0 24px 50px -26px rgb(0 0 0 / .8);
+}
+.rec__frame iframe{width:100%;height:100%;border:0;display:block}
+.rec__play{
+  display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer;
+}
+/* hqdefault is 4:3 with letterbox bars; cover-cropping it back to 16:9
+   hides the bars without needing the larger, often-missing hq720 asset */
+.rec__thumb{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s var(--ease);
+}
+.rec__play:hover .rec__thumb,.rec__play:focus-visible .rec__thumb{transform:scale(1.045)}
+.rec__badge{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:62px;height:62px;border-radius:50%;background:var(--cream);
+  box-shadow:0 10px 30px -8px rgb(0 0 0 / .7);
+  transition:transform .3s var(--ease),background-color .3s;
+}
+.rec__badge::after{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-38%,-50%);
+  border-style:solid;border-width:11px 0 11px 18px;
+  border-color:transparent transparent transparent var(--maroon-800);
+}
+.rec__play:hover .rec__badge,.rec__play:focus-visible .rec__badge{
+  transform:translate(-50%,-50%) scale(1.08);background:var(--gold-hi);
+}
+.rec__txt{padding:1rem .25rem 0}
+.rec__day{margin:0 0 .35rem;font-size:.85rem;color:var(--gold)}
+.rec__who{font-size:1.12rem;line-height:1.3;color:var(--cream)}
+.rec__kind{margin:.4rem 0 0;font-size:.88rem;color:color-mix(in srgb,var(--cream) 80%,transparent)}
 
-.player__frame{
-  position:relative;aspect-ratio:16/9;border-radius:calc(var(--r) + 4px);overflow:hidden;
-  border:1px solid color-mix(in srgb,var(--gold) 34%,transparent);
-  background:radial-gradient(70% 90% at 50% 0%,rgb(255 232 166 / .09),transparent 70%),var(--maroon-900);
-  box-shadow:0 30px 70px -30px rgb(0 0 0 / .8);
+.recs__note{
+  margin:clamp(2.4rem,5vw,3.4rem) auto 0;max-width:44rem;text-align:center;
+  font-size:.95rem;color:color-mix(in srgb,var(--cream) 84%,transparent);
 }
-.player__frame iframe{width:100%;height:100%;border:0;display:block}
-.player__soon{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.5rem}
-.player__badge{
-  display:inline-block;margin-bottom:1.1rem;padding:.4rem 1rem;border-radius:100px;
-  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;
-  color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);
-}
-.player__head{margin:0;font-size:clamp(1.15rem,1rem + .8vw,1.6rem);color:var(--cream)}
-.player__sub{margin:.5rem 0 0;color:color-mix(in srgb,var(--cream) 86%,transparent)}
-.player__cap{margin:.9rem 0 0;text-align:center;font-size:.85rem;color:color-mix(in srgb,var(--cream) 74%,transparent)}
-/* Shown when a session is live but no embed URL has been configured.
-   The 16/9 frame is only ~158px tall at 320px, so once these buttons are
-   in the card the frame has to stop being a fixed ratio box and grow. */
-.player__ways{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;margin-top:1.5rem}
-.player.has-ways .player__frame{aspect-ratio:auto;min-height:min(56.25vw,340px)}
-.player.has-ways .player__soon{position:static;padding:1.8rem 1.3rem}
-@media (max-width:560px){
-  .player.has-ways .player__ways{flex-direction:column;align-items:stretch}
-  .player.has-ways .player__ways .btn{justify-content:center}
-}
-.player[data-state="live"] .player__badge{color:var(--live);border-color:var(--live)}
+.recs__note a{color:var(--gold);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--gold) 40%,transparent)}
+.recs__note a:hover{color:var(--gold-hi)}
 
 /* ============================================================
    VISIT  (full-bleed map band with an overlaid detail card)
@@ -590,6 +557,28 @@ p{text-wrap:pretty}
 .poster:hover .poster__cue,.poster:focus-visible .poster__cue{opacity:1;transform:translate(-50%,0)}
 /* touch has no hover, so the cue is always visible there */
 @media (hover:none){.poster__cue{opacity:1;transform:translate(-50%,0)}}
+
+/* ============================================================
+   IN THE NEWS  (press clippings on paper plaques)
+   ============================================================ */
+.press{padding-bottom:clamp(4rem,7vw,6rem)}
+.press .strip{padding-top:.5rem}
+.strip--press li{flex-basis:clamp(220px,32vw,320px)}
+.clip{margin:0}
+.clip a{display:block;border-radius:10px}
+/* newsprint on a white plaque, the same device as the footer logos */
+.clip img{
+  background:#fff;border-radius:10px;padding:.55rem;
+  border:1px solid color-mix(in srgb,var(--ink) 10%,transparent);
+  box-shadow:0 16px 34px -16px rgb(74 10 22 / .38);
+  transition:transform .4s var(--ease),box-shadow .3s;
+}
+.clip a:hover img,.clip a:focus-visible img{
+  transform:translateY(-6px);
+  box-shadow:0 22px 40px -16px rgb(74 10 22 / .5);
+}
+.clip figcaption{margin-top:.7rem;font-size:.85rem;color:var(--ink-2)}
+.clip figcaption b{font-weight:500;color:var(--ink)}
 
 /* ============================================================
    SHARE SHEET
@@ -702,10 +691,9 @@ dialog:not([open]){display:none}
   .hero__actions{justify-content:center}
   .hero__deity{order:-1;margin-bottom:.5rem}
   .hero__deity img{width:min(200px,42vw)}
-  .count{display:inline-block;text-align:left}
-  .about__in,.watch__in{grid-template-columns:1fr}
+  .count{margin-inline:auto;text-align:left}
+  .about__in{grid-template-columns:1fr}
   .about__art{max-width:300px;margin-inline:auto;position:static}
-  .watch__copy{order:2}
   .foot__in{grid-template-columns:1fr}
 }
 
@@ -763,8 +751,6 @@ dialog:not([open]){display:none}
 }
 
 @media (max-width:520px){
-  .count__grid{gap:1.1rem}
-  .count__unit{min-width:60px}
   .foot__logos{flex-wrap:wrap;gap:1.2rem}
 }
 

@@ -1,345 +1,47 @@
 /* ============================================================
-   Sri Krishna Utsavam 2026
+   Sri Krishna Utsavam 2026 — post-festival page
 
-   The schedule lives in index.html only. Every session is an
-   .event with data-start / data-end in IST (+05:30), and those
-   two attributes drive the countdown, the live highlight, the
-   player state and the calendar downloads.
+   The utsavam concluded on 5 August 2026. The countdown, the
+   live player and the calendar downloads have retired with it;
+   what remains is the recordings grid, the nav, the poster
+   share sheet and the scroll reveals.
    ============================================================ */
 (function () {
   'use strict';
-
-  /* ── 1. CONFIG ──────────────────────────────────────────────
-     One scheduled YouTube broadcast per festival day, from the
-     technician sheet. The key is the festival day in IST, which is
-     exactly the date part of every data-start in index.html; the
-     value is that day's video id. The player mounts the right embed
-     on its own, so nothing here needs touching while the utsavam
-     runs. Each id keeps working afterwards as the day's recording.
-  ------------------------------------------------------------ */
-  var STREAMS = {
-    '2026-07-31': 'Tb1eBjKZ4aE',
-    '2026-08-01': '-U0Hn4vArB4',   /* ids may begin with a hyphen */
-    '2026-08-02': 'FXx2Y5HCRCE',
-    '2026-08-03': 'KZUKT2Vdfvs',
-    '2026-08-04': '-KwUPPhh6-4',
-    '2026-08-05': '-8TDELKioSc'
-  };
-
-  /* Mount the day's embed this many minutes before the first item,
-     so early arrivals land in YouTube's waiting room, not a card. */
-  var EARLY_MIN = 25;
-
-  var VENUE = 'Bharatiya Vidya Bhavan (Main Hall), New No. 18, 20 and 22, ' +
-              'East Mada Street, Mylapore, Chennai 600004';
 
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var hasIO = 'IntersectionObserver' in window;
   var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
-  /* ── 2. SCHEDULE MODEL ───────────────────────────────────── */
-  var events = $$('.event').map(function (el) {
-    return {
-      el: el,
-      start: new Date(el.dataset.start),
-      end: new Date(el.dataset.end),
-      billed: el.classList.contains('event--star'),
-      title: text($('.event__who', el)) || 'Sri Krishna Utsavam',
-      kind: text($('.event__kind', el)),
-      day: text($('.day__n', el.closest('.day')))
-    };
-  }).filter(function (e) {
-    return !isNaN(e.start) && !isNaN(e.end);
-  }).sort(function (a, b) { return a.start - b.start; });
+  /* ── 1. RECORDINGS ───────────────────────────────────────────
+     One card per festival day. The YouTube embed mounts only when
+     a card is tapped: six iframes on page load would cost far more
+     than this audience's phones should pay. enablejsapi is on so
+     GTM's video trigger can report watch progress. */
+  $$('.rec__play').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var id = btn.dataset.video;
+      if (!id) return;
 
-  function text(node) { return node ? node.textContent.trim() : ''; }
-
-  if (!events.length) return;
-
-  var FIRST = events[0].start;
-  /* the latest END, not the end of the last item by start time: the two are
-     the same today but diverge the moment a session is re-ordered */
-  var LAST = events.reduce(function (max, e) { return e.end > max ? e.end : max; }, events[0].end);
-
-  var IST = { timeZone: 'Asia/Kolkata' };
-  function fmtDate(d) {
-    return d.toLocaleDateString('en-GB', Object.assign({ weekday: 'long', day: 'numeric', month: 'long' }, IST));
-  }
-  function fmtTime(d) {
-    return d.toLocaleTimeString('en-GB', Object.assign({ hour: 'numeric', minute: '2-digit', hour12: true }, IST))
-      .replace(/\s*(am|pm)/i, function (m) { return ' ' + m.trim().toLowerCase(); });
-  }
-
-  /* ── 3. COUNTDOWN, LIVE STATE, PLAYER ────────────────────── */
-  var countEl = $('#countdown'), labelEl = $('#countLabel'), nextEl = $('#countNext');
-  var grid = $('#countGrid');
-  var units = { d: $('[data-unit="d"]'), h: $('[data-unit="h"]'), m: $('[data-unit="m"]'), s: $('[data-unit="s"]') };
-  var player = $('#player'), pBadge = $('#playerBadge'), pHead = $('#playerHead'), pSub = $('#playerSub');
-  var watchCta = $('#watchCta');
-
-  function pad(n) { return n < 10 ? '0' + n : String(n); }
-  function set(node, prop, value) {           // never rewrite an unchanged live region
-    if (node && node[prop] !== value) node[prop] = value;
-  }
-
-  function currentEvent(now) {
-    for (var i = 0; i < events.length; i++) {
-      if (now >= events[i].start && now < events[i].end) return events[i];
-    }
-    return null;
-  }
-  function nextEvent(now, billedOnly) {
-    for (var i = 0; i < events.length; i++) {
-      if (events[i].start > now && (!billedOnly || events[i].billed)) return events[i];
-    }
-    return null;
-  }
-
-  var mountedDay = null;
-  /* the untouched "streaming opens soon" card, so a stale embed can be torn down */
-  var frameInitial = player ? $('.player__frame', player).innerHTML : null;
-  function dayKey(e) { return (e.el.dataset.start || '').slice(0, 10); }
-
-  /* The festival day in IST, whatever timezone the viewer is in. en-CA renders
-     as YYYY-MM-DD, which is exactly how STREAMS is keyed. */
-  function istDateKey(d) {
-    return d.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
-  }
-
-  /* Which day's broadcast is "the current one": today while the utsavam is on,
-     otherwise the next day still to come, and the final day once it is over. */
-  function streamDayFor(now) {
-    var today = istDateKey(now);
-    if (STREAMS[today]) return today;
-    var days = Object.keys(STREAMS).sort();
-    for (var i = 0; i < days.length; i++) {
-      if (days[i] > today) return days[i];
-    }
-    return days[days.length - 1];
-  }
-
-  /* Keeps the "Open today's stream on YouTube" link pointing at the right
-     broadcast every day, with no edit to this file while the utsavam runs. */
-  var ytLink = $('#ytLink');
-  function syncYouTubeLink(now) {
-    if (!ytLink) return;
-    var id = STREAMS[streamDayFor(now)];
-    if (!id) return;
-    var href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(id);
-    if (ytLink.getAttribute('href') !== href) ytLink.setAttribute('href', href);
-  }
-
-  /* Yesterday's embed must not sit in the player once its day is over: a tab
-     left open overnight would otherwise offer the previous day's recording. */
-  function unmountStream() {
-    if (!player || mountedDay === null || frameInitial === null) return;
-    var frame = $('.player__frame', player);
-    if (!frame) return;
-    frame.innerHTML = frameInitial;
-    player.classList.remove('has-ways');
-    mountedDay = null;
-    /* the card was rebuilt, so these three nodes are new */
-    pBadge = $('#playerBadge');
-    pHead = $('#playerHead');
-    pSub = $('#playerSub');
-  }
-
-  function mountStream(day) {
-    if (!player || !day || mountedDay === day) return;
-    var frame = $('.player__frame', player);
-    var id = STREAMS[day];
-
-    if (id) {
       var iframe = document.createElement('iframe');
-      iframe.src = 'https://www.youtube.com/embed/' + encodeURIComponent(id) + '?playsinline=1&rel=0';
-      iframe.title = 'Sri Krishna Utsavam live stream';
+      iframe.src = 'https://www.youtube.com/embed/' + encodeURIComponent(id) +
+        '?autoplay=1&playsinline=1&rel=0&enablejsapi=1';
+      iframe.title = btn.getAttribute('aria-label') || 'Sri Krishna Utsavam recording';
       iframe.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
       iframe.allowFullscreen = true;
+
+      var frame = btn.closest('.rec__frame');
       frame.innerHTML = '';
       frame.appendChild(iframe);
-      player.classList.remove('has-ways');
-      mountedDay = day;
-      return;
-    }
 
-    /* No id for this day. Rather than show a dead player while a session is
-       genuinely on stage, hand the viewer the room that always exists. */
-    var box = $('.player__soon', frame);
-    if (!box || $('.player__ways', box)) return;
-    var ways = document.createElement('div');
-    ways.className = 'player__ways';
-    ways.innerHTML =
-      '<a class="btn btn--gold" target="_blank" rel="noopener" ' +
-      'href="https://us02web.zoom.us/j/87692135267?pwd=UmNlTGhVVkhBdHpMM05aWkNSUXRwZz09">Open the Zoom room</a>';
-    box.appendChild(ways);
-    /* lets the CSS drop the fixed 16/9 box so the buttons cannot be clipped */
-    player.classList.add('has-ways');
-  }
-
-  var lastNow = null;
-  function tick() {
-    var now = new Date();
-    var live = currentEvent(now);
-
-    syncYouTubeLink(now);
-
-    if (live !== lastNow) {
-      events.forEach(function (e) { e.el.classList.toggle('is-now', e === live); });
-      if (watchCta) watchCta.classList.toggle('is-live', !!live);
-      /* if the on-stage item is inside the collapsed inauguration block, open it */
-      if (live) {
-        var box = live.el.closest('details');
-        if (box) box.open = true;
+      if (window.dataLayer) {
+        window.dataLayer.push({ event: 'recording_play', festival_day: btn.dataset.day || '', video_id: id });
       }
-      lastNow = live;
-    }
-
-    /* ── a session is on stage ── */
-    if (live) {
-      countEl.classList.add('is-live');
-      grid.hidden = true;
-      set(labelEl, 'textContent', 'Live now, ' + live.day);
-      set(nextEl, 'innerHTML', '<b>' + live.title + '</b> is on stage. <a href="#watch">Watch the stream</a>');
-      if (player) {
-        player.dataset.state = 'live';
-        set(pBadge, 'textContent', 'Live now');
-        set(pHead, 'textContent', live.title);
-        set(pSub, 'textContent', live.kind || fmtDate(live.start));
-        mountStream(dayKey(live));
-      }
-      return;
-    }
-
-    /* ── the festival is over ── */
-    if (now >= LAST) {
-      countEl.classList.remove('is-live');
-      grid.hidden = true;
-      set(labelEl, 'textContent', 'Until we meet again');
-      set(nextEl, 'innerHTML', 'The 16<sup>th</sup> Sri Krishna Utsavam has concluded. ' +
-        'Recordings will be shared on the SVMF channel.');
-      if (player) {
-        player.dataset.state = 'ended';
-        set(pBadge, 'textContent', 'Stream ended');
-        set(pHead, 'textContent', 'Thank you for joining us');
-        set(pSub, 'textContent', 'Recordings will be posted on the SVMF YouTube channel.');
-      }
-      return;
-    }
-
-    /* ── counting down ── */
-    var next = nextEvent(now, false);
-    var diff = Math.max(0, (next ? next.start : FIRST) - now);
-    var s = Math.floor(diff / 1000);
-
-    countEl.classList.remove('is-live');
-    grid.hidden = false;
-    set(units.d, 'textContent', String(Math.floor(s / 86400)));
-    set(units.h, 'textContent', pad(Math.floor(s / 3600) % 24));
-    set(units.m, 'textContent', pad(Math.floor(s / 60) % 60));
-    set(units.s, 'textContent', pad(s % 60));
-
-    if (now < FIRST || !next) {
-      set(labelEl, 'textContent', 'The utsavam begins in');
-      set(nextEl, 'innerHTML', 'Opening on <b>' + fmtDate(FIRST) + '</b> at <b>' + fmtTime(FIRST) + ' IST</b>');
-    } else {
-      set(labelEl, 'textContent', 'Next session in');
-      set(nextEl, 'innerHTML', '<b>' + next.title + '</b>, ' + fmtDate(next.start) + ' at ' + fmtTime(next.start) + ' IST');
-    }
-
-    if (player) {
-      player.dataset.state = 'soon';
-      var billed = nextEvent(now, true) || next;
-      if (billed) {
-        set(pBadge, 'textContent', 'Streaming opens soon');
-        set(pHead, 'textContent', billed.title);
-        set(pSub, 'textContent', billed.day + ', ' + fmtDate(billed.start) + ' at ' + fmtTime(billed.start) + ' IST');
-      }
-      /* the page promises the player "opens a few minutes before each
-         performance": mount the day's embed a little ahead of the first
-         item, so early arrivals see YouTube's waiting room, then the feed */
-      if (next && next.start - now < EARLY_MIN * 60000) {
-        mountStream(dayKey(next));
-      } else if (mountedDay !== null && mountedDay !== (next ? dayKey(next) : null)) {
-        /* a finished day's embed is still sitting there; put the waiting card
-           back rather than leave yesterday's recording on offer */
-        unmountStream();
-      }
-    }
-  }
-
-  tick();
-  setInterval(tick, 1000);
-
-  /* ── 4. ADD TO CALENDAR (.ics built in the browser) ──────── */
-  function stamp(d) { return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
-  function esc(t) {
-    return String(t).replace(/[\\;,]/g, function (c) { return '\\' + c; }).replace(/\n/g, '\\n');
-  }
-  /* RFC 5545 3.1 folds at 75 OCTETS, not characters. Artist names carry
-     accented and Devanagari characters, so measure real UTF-8 length. */
-  var enc = window.TextEncoder ? new TextEncoder() : null;
-  function octets(str) { return enc ? enc.encode(str).length : str.length; }
-
-  function fold(line) {
-    if (octets(line) <= 75) return line;
-    var out = '', run = '', limit = 75;    /* first line: 75 octets */
-    for (var i = 0; i < line.length; i++) {
-      var ch = line[i];
-      /* never split a surrogate pair across a fold */
-      if (/[\uD800-\uDBFF]/.test(ch) && i + 1 < line.length) ch += line[++i];
-      if (octets(run + ch) > limit) {
-        out += (out ? '\r\n ' : '') + run;
-        run = ch;
-        limit = 74;                        /* leading space eats one of the 75 */
-      } else {
-        run += ch;
-      }
-    }
-    return out + (out ? '\r\n ' : '') + run;
-  }
-
-  $$('[data-ics]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var row = btn.closest('.event');
-      var ev = events.filter(function (e) { return e.el === row; })[0];
-      if (!ev) return;
-
-      var body = [
-        'BEGIN:VCALENDAR', 'VERSION:2.0', 'CALSCALE:GREGORIAN',
-        'PRODID:-//SVMF//Sri Krishna Utsavam 2026//EN',
-        'BEGIN:VEVENT',
-        'UID:' + stamp(ev.start) + '-svmf@svmf.in',
-        'DTSTAMP:' + stamp(new Date()),
-        'DTSTART:' + stamp(ev.start),
-        'DTEND:' + stamp(ev.end),
-        /* keep the session type in the title: "Odissi dance recital, Dr. Sujata
-           Mohapatra" is far more use in a calendar than the name alone */
-        'SUMMARY:' + esc((ev.kind ? ev.kind + ', ' : '') + ev.title + ' (Sri Krishna Utsavam)'),
-        'DESCRIPTION:' + esc((ev.kind ? ev.kind + '. ' : '') +
-          '16th Sri Krishna Utsavam, presented by Sri Vishnu Mohan Foundation and ' +
-          'Sri Gnana Advaitha Peetam. Entry free.'),
-        'LOCATION:' + esc(VENUE),
-        'END:VEVENT', 'END:VCALENDAR'
-      ].map(fold).join('\r\n');
-
-      var url = URL.createObjectURL(new Blob([body], { type: 'text/calendar;charset=utf-8' }));
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = ev.title.replace(/[^\w]+/g, '-').replace(/^-|-$/g, '').toLowerCase() + '-utsavam-2026.ics';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-
-      var was = btn.textContent;
-      btn.textContent = 'Saved';
-      btn.classList.add('is-done');
-      setTimeout(function () { btn.textContent = was; btn.classList.remove('is-done'); }, 2400);
     });
   });
 
-  /* ── 5. NAV ──────────────────────────────────────────────── */
+  /* ── 2. NAV ──────────────────────────────────────────────── */
   var nav = $('#nav'), toggle = $('#navToggle'), links = $('#navLinks');
 
   /* a sentinel at the top of the page rather than a scroll listener.
@@ -387,11 +89,11 @@
     });
   }
 
-  /* ── 6. SHARE A POSTER ───────────────────────────────────────
-     Tapping a poster opens a sheet with a note already written for that
-     artist. Where the browser has a real share sheet (nearly all phones)
-     we hand it the poster image itself, so WhatsApp sends the picture and
-     not just a link. Everywhere else there are explicit buttons.        */
+  /* ── 3. SHARE A POSTER ───────────────────────────────────────
+     The cards are keepsakes now. Tapping one opens a sheet with a
+     past-tense note that points at the recordings. Where the browser
+     has a real share sheet (nearly all phones) we hand it the poster
+     image itself, so WhatsApp sends the picture and not just a link. */
   var dlg = $('#shareDlg');
 
   if (dlg) {
@@ -405,9 +107,8 @@
        day. Change this one line if the public address changes. */
     var SITE = 'https://live.svmf.in/krishna-utsavam';
 
-    /* The note has to end in an actual invitation, not just facts. */
-    var TAIL = 'Bharatiya Vidya Bhavan, Mylapore, Chennai. Entry is free.';
-    var ASK = 'Do join us, or watch it live here:';
+    var TAIL = 'Bharatiya Vidya Bhavan, Mylapore, Chennai.';
+    var ASK = 'Watch the recordings here:';
 
     function say(t) { noteEl.textContent = t || ''; }
 
@@ -449,7 +150,8 @@
       if (dlg.open) closeShare();         // never call showModal on an open dialog
       lastPoster = btn;
       var img = btn.dataset.img;
-      var url = SITE + (btn.dataset.anchor || '');
+      /* the recordings are the point now, so every note lands on #watch */
+      var url = SITE + '#watch';
       current = {
         img: img,
         who: btn.dataset.who,
@@ -480,7 +182,7 @@
       var text = msgEl.value;
       aWa.href = 'https://wa.me/?text=' + encodeURIComponent(text);
       aMail.href = 'mailto:?subject=' +
-        encodeURIComponent('Sri Krishna Utsavam 2026, 31 July to 5 August') +
+        encodeURIComponent('Sri Krishna Utsavam 2026, watch the recordings') +
         '&body=' + encodeURIComponent(text);
     }
     msgEl.addEventListener('input', sync);
@@ -535,9 +237,9 @@
     });
   }
 
-  /* ── 7. REVEAL ON SCROLL ─────────────────────────────────── */
+  /* ── 4. REVEAL ON SCROLL ─────────────────────────────────── */
   if (hasIO && !reduceMotion) {
-    var targets = $$('.about__text, .about__art, .day, .card, .watch__copy, .player, .visit__card, .sec-head');
+    var targets = $$('.about__text, .about__art, .day, .card, .rec, .clip, .visit__card, .sec-head');
     targets.forEach(function (el) { el.classList.add('reveal'); });
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {

@@ -1,8 +1,9 @@
 # Sri Krishna Utsavam 2026
 
-Landing page for the 16th Sri Krishna Utsavam, 31 July to 5 August 2026, at Bharatiya
-Vidya Bhavan, Mylapore, Chennai. Presented by the Sri Vishnu Mohan Foundation and Sri
-Gnana Advaitha Peetam.
+Landing page for the 16th Sri Krishna Utsavam, held 31 July to 5 August 2026 at
+Bharatiya Vidya Bhavan, Mylapore, Chennai. Presented by the Sri Vishnu Mohan Foundation
+and Sri Gnana Advaitha Peetam. The festival has concluded; the page is now its archive,
+with the recordings of all six days.
 
 **Public link: https://live.svmf.in/krishna-utsavam** (a Switchy redirect to the GitHub Pages
 site below, with click tracking; this is the link to share).
@@ -28,53 +29,34 @@ Open `index.html` directly, or serve the folder:
 python -m http.server 4321
 ```
 
-## The live stream
+## The recordings
 
-`assets/js/main.js` carries one scheduled YouTube broadcast per festival day, keyed by
-the festival date in IST (the date part of every `data-start`):
+Each festival day is one card in the "Watch the recordings" grid in `index.html`,
+carrying its YouTube video id on the button (`data-video`). The embed mounts only when
+a card is tapped, so the page never loads six iframes up front. Embeds carry
+`enablejsapi=1`, and each play pushes a `recording_play` event (day + video id) to the
+GTM dataLayer.
 
-```js
-var STREAMS = {
-  '2026-07-31': 'Tb1eBjKZ4aE',
-  /* ... one entry per day, from the technician sheet ... */
-};
-```
+The live-stream machinery from the festival week (the `STREAMS` map, countdown, player
+states, `Add to calendar` downloads) was removed after the event; it is in the git
+history should the 17th edition want it back.
 
-The player mounts the right day's embed by itself, `EARLY_MIN` minutes before the first
-item, so early arrivals land in YouTube's waiting room and then the feed. During the
-festival there is nothing to edit. If a day's id were ever missing, the player shows
-Zoom and YouTube channel buttons instead of a dead frame, and each id keeps working
-after its evening ends as the link to that day's recording.
+## The schedule (now an archive)
 
-The player has three clock-driven states:
+The schedule still lives **only** in `index.html`, one `<article class="event">` per
+session with `data-start`/`data-end` in IST. Nothing reads the timestamps any more, but
+they stay because they are the only machine-readable record of the programme.
 
-| State | When | Shown |
-|---|---|---|
-| soon | before and between sessions | countdown, next billed artist |
-| live | during a scheduled session | red "Live now" badge, the embed, and that row lit up in the schedule |
-| ended | after 5 August | closing message |
-
-## Editing the schedule
-
-The schedule lives **only** in `index.html`. Each session is one `<article class="event">`
-carrying two attributes:
-
-```html
-<article class="event event--star"
-         data-start="2026-08-01T16:30:00+05:30"
-         data-end="2026-08-01T17:45:00+05:30">
-```
-
-Those timestamps drive the countdown, the "next session" line, the live highlight and
-the *Add to calendar* download. There is no second copy of the schedule in the
-JavaScript, so changing them here changes everything.
-
-- `event--star` marks a billed performance: gold dot, portrait, calendar button.
+- `event--star` marks a billed performance: gold dot, portrait.
 - `event--rite` marks a short formality such as the lamp lighting.
 - Day 1's six formalities sit inside a `<details class="rites">` so the opening concert
-  is what you see first. It opens itself if one of those items is on stage.
-- The visible `<time>` is only a label. Edit it to match `data-start`.
-- Keep the `+05:30`. It is what makes the countdown correct for viewers abroad.
+  is what you see first.
+
+## In the news
+
+The `#press` section (and its `#pressLink` nav item) ship with the `hidden` attribute.
+To publish coverage: drop clipping scans into `assets/img/press/`, copy the commented
+`<li>` template in the section once per clipping, and remove both `hidden` attributes.
 
 ## Sharing a poster
 
@@ -86,14 +68,14 @@ system the **poster image itself**, so WhatsApp sends the picture rather than a 
 link. Everywhere else there are explicit WhatsApp, email, copy and download actions.
 
 The note lives on the button, so the client can reword any of them without touching
-JavaScript:
+JavaScript (the notes are past tense now, and every one points at the recordings):
 
 ```html
 <button class="poster" type="button"
         data-img="day4-sujata"          <!-- basename in assets/img/posters/ -->
-        data-anchor="#day-4"            <!-- deep link added to the note      -->
+        data-anchor="#day-4"
         data-who="Dr. Sujata Mohapatra"
-        data-msg="Dr. Sujata Mohapatra dances at the 16th Sri Krishna Utsavam. ...">
+        data-msg="Dr. Sujata Mohapatra danced at the 16th Sri Krishna Utsavam. ...">
 ```
 
 The venue line and the closing invitation are shared by every card and live in
@@ -103,28 +85,17 @@ Each poster exists twice: `.webp` for the page, `.jpg` for sharing, because What
 mail clients handle JPEG most reliably. The JPEG is only fetched when someone actually
 opens the share sheet, so it costs nothing on page load.
 
-## Before the client shares it
-
-1. **Saketaraman's start time.** The invitation contradicts itself: the Schedule of
-   Events page says the Day 1 concert begins at **6:00 pm**, his own artist card says
-   **5:30 pm**. The site uses 6:00 pm. Change `data-start` on that row if the card is
-   right.
-2. **Session end times** are estimates used for the live-state logic and the calendar
-   files. Adjust `data-end` if the organisers have firmer timings.
-3. **Custom domain.** If you point a domain at this, update the four absolute URLs in
-   the `<head>` and the ones in the JSON-LD block at the foot of `index.html`.
-
 ## Notes on the build
 
 - Fonts are self-hosted rather than loaded from Google, so there is no render-blocking
   third-party request on a patchy mobile connection.
 - Body text is set at weight 400 with contrast raised across the board. Every text and
   background pair on the page passes WCAG AA, most reach AAA. The lowest ratio is 6.4:1.
-- Calendar files are folded at 75 octets per RFC 5545, measured in UTF-8 bytes, so they
-  import cleanly into Outlook as well as Google and Apple Calendar.
-- Motion is limited to scroll reveals, the countdown and one slow float on the Krishna
-  artwork, and all of it collapses under `prefers-reduced-motion`.
+- Motion is limited to scroll reveals and one slow float on the Krishna artwork, and
+  all of it collapses under `prefers-reduced-motion`.
 - A JSON-LD `Festival` block describes the event for search engines.
+- **Custom domain.** If you point a domain at this, update the four absolute URLs in
+  the `<head>` and the ones in the JSON-LD block at the foot of `index.html`.
 
 ## Credits
 
