@@ -54,9 +54,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="#about">About</a>
       <a href="#schedule">Schedule</a>
       <a href="#artists">Artists</a>
-      <a href="#visit">Visit</a>
-      <!-- unhide together with the #press section once clippings are in -->
-      <a href="#press" id="pressLink" hidden>In the news</a>
+      <a href="#press" id="pressLink">In the news</a>
       <a class="nav__cta" href="#watch">Recordings</a>
     </nav>
     <button class="nav__toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks">
@@ -523,47 +521,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- ───────────────────────── VISIT ───────────────────────── -->
-  <section class="visit section--cream" id="visit" aria-labelledby="visit-h">
-    <div class="scallop scallop--rise" aria-hidden="true"></div>
-
-    <div class="wrap">
-      <header class="sec-head sec-head--dark">
-        <h2 class="h2" id="visit-h">Bharatiya Vidya Bhavan, Mylapore</h2>
-      </header>
-    </div>
-
-    <div class="visit__band">
-      <div class="visit__map">
-        <iframe
-          title="Map showing Bharatiya Vidya Bhavan on East Mada Street, Mylapore, Chennai"
-          src="https://www.openstreetmap.org/export/embed.html?bbox=80.2620%2C13.0300%2C80.2760%2C13.0400&amp;layer=mapnik&amp;marker=13.0350%2C80.2690"
-          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-
-      <div class="visit__card">
-        <address class="visit__addr">
-          Main Hall, New No. 18, 20 and 22<br>
-          East Mada Street, Mylapore<br>
-          Chennai 600 004
-        </address>
-        <ul class="visit__list">
-          <li><b>The venue</b>The 16<sup>th</sup> utsavam was held in the Main Hall from 31 July to 5 August 2026, with free entry for all.</li>
-          <li><b>Getting there</b>The hall is on East Mada Street, near the Kapaleeswarar temple. Thirumayilai MRTS station is a short walk away.</li>
-          <li><b>Language</b>The discourses were in Tamil, with verses in Sanskrit.</li>
-        </ul>
-        <div class="visit__btns">
-          <a class="btn btn--gold" href="https://maps.google.com/?q=Bharatiya+Vidya+Bhavan,+East+Mada+Street,+Mylapore,+Chennai+600004" target="_blank" rel="noopener">Open in Maps</a>
-          <a class="btn btn--ghost" href="mailto:vishnufoundation@gmail.com">Email the foundation</a>
-        </div>
-      </div>
-      <p class="visit__credit">Map data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.</p>
-    </div>
-  </section>
-
   <!-- ───────────────────────── INVITE ───────────────────────── -->
   <section class="invite" id="invite" aria-labelledby="invite-h">
-    <div class="scallop scallop--dip" aria-hidden="true"></div>
     <div class="wrap">
       <header class="sec-head">
         <h2 class="h2 h2--light" id="invite-h">The invitation cards</h2>
@@ -668,12 +627,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- ───────────────────────── IN THE NEWS ─────────────────────────
-       Hidden until the newspaper clippings are added. To publish:
-       1. Drop clipping scans into assets/img/press/ (webp, ~900px wide).
-       2. Copy the commented <li> below once per clipping and fill in the
-          image, publication name and date.
-       3. Remove the hidden attribute here AND on the #pressLink nav item. -->
-  <section class="press section--cream" id="press" aria-labelledby="press-h" hidden>
+       To add a clipping: drop the scan into assets/img/press/ (webp,
+       under ~900px wide), copy an <li> and fill in image, publication
+       and date. Keep the list in date order. -->
+  <section class="press section--cream" id="press" aria-labelledby="press-h">
     <div class="scallop scallop--rise" aria-hidden="true"></div>
     <div class="wrap">
       <header class="sec-head sec-head--dark">
@@ -684,18 +641,61 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <ul class="strip strip--press" role="list">
-      <!--
       <li>
         <figure class="clip">
-          <a href="assets/img/press/the-hindu-2026-08-02.webp" target="_blank" rel="noopener">
-            <img src="assets/img/press/the-hindu-2026-08-02.webp"
-                 alt="Newspaper clipping about the Sri Krishna Utsavam"
-                 width="900" height="1200" loading="lazy" decoding="async">
+          <a href="assets/img/press/mambalam-times-2026-07-26.webp" target="_blank" rel="noopener"
+             aria-label="Read the Mambalam Times article full size">
+            <img src="assets/img/press/mambalam-times-2026-07-26.webp"
+                 alt="Mambalam Times article: Discourses and music programs from July 31 to Aug. 5"
+                 width="308" height="645" loading="lazy" decoding="async">
           </a>
-          <figcaption><b>The Hindu</b> 2 August 2026</figcaption>
+          <figcaption><b>Mambalam Times</b> 26 July 2026</figcaption>
         </figure>
       </li>
-      -->
+      <li>
+        <figure class="clip">
+          <a href="assets/img/press/events-column-2026-07-30.webp" target="_blank" rel="noopener"
+             aria-label="Read the 30 July events-column announcement full size">
+            <img src="assets/img/press/events-column-2026-07-30.webp"
+                 alt="Events-column announcement of the full six-day programme, sponsored by Nalli"
+                 width="420" height="1220" loading="lazy" decoding="async">
+          </a>
+          <figcaption><b>Events column</b> 30 July 2026</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="clip">
+          <a href="assets/img/press/hindu-downtown-2026-08-01.webp" target="_blank" rel="noopener"
+             aria-label="Read The Hindu Downtown piece full size">
+            <img src="assets/img/press/hindu-downtown-2026-08-01.webp"
+                 alt="The Hindu Downtown, Plan Your Week: Sri Krishna Utsavam in Mylapore, with a photograph of a Mohiniyattam dancer"
+                 width="900" height="796" loading="lazy" decoding="async">
+          </a>
+          <figcaption><b>The Hindu Downtown</b> 1 August 2026</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="clip">
+          <a href="assets/img/press/dinamalar-2026-08-01.webp" target="_blank" rel="noopener"
+             aria-label="Read the Dinamalar article full size">
+            <img src="assets/img/press/dinamalar-2026-08-01.webp"
+                 alt="Dinamalar article on the inauguration of the Sri Krishna Utsavam in Mylapore, with a photograph of the dignitaries on stage"
+                 width="490" height="609" loading="lazy" decoding="async">
+          </a>
+          <figcaption><b>Dinamalar</b> 1 August 2026</figcaption>
+        </figure>
+      </li>
+      <li>
+        <figure class="clip">
+          <a href="assets/img/press/events-column-2026-08-03.webp" target="_blank" rel="noopener"
+             aria-label="Read the 3 August events-column announcement full size">
+            <img src="assets/img/press/events-column-2026-08-03.webp"
+                 alt="Events-column announcement for Days 4 and 5, sponsored by Nalli"
+                 width="463" height="735" loading="lazy" decoding="async">
+          </a>
+          <figcaption><b>Events column</b> 3 August 2026</figcaption>
+        </figure>
+      </li>
     </ul>
   </section>
 
@@ -735,6 +735,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </dialog>
 
 <footer class="foot">
+  <div class="scallop scallop--dip" aria-hidden="true"></div>
   <div class="wrap foot__in">
     <div class="foot__org">
       <img class="foot__mark" src="assets/img/wordmark.webp" alt="Sri Krishna Utsavam" width="1138" height="473" loading="lazy">

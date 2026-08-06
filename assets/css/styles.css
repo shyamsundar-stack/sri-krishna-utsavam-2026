@@ -562,12 +562,16 @@ p{text-wrap:pretty}
    IN THE NEWS  (press clippings on paper plaques)
    ============================================================ */
 .press{padding-bottom:clamp(4rem,7vw,6rem)}
-.press .strip{padding-top:.5rem}
-.strip--press li{flex-basis:clamp(220px,32vw,320px)}
+.press .strip{padding-top:.5rem;align-items:flex-start}
+/* the clippings share one ledge height and keep their own widths, like
+   cuttings pinned in a row; sizing by width instead would make the tall
+   single-column ads tower over the wide articles */
+.strip--press li{flex:0 0 auto}
 .clip{margin:0}
 .clip a{display:block;border-radius:10px}
 /* newsprint on a white plaque, the same device as the footer logos */
 .clip img{
+  height:clamp(300px,44vw,430px);width:auto;
   background:#fff;border-radius:10px;padding:.55rem;
   border:1px solid color-mix(in srgb,var(--ink) 10%,transparent);
   box-shadow:0 16px 34px -16px rgb(74 10 22 / .38);
@@ -648,8 +652,9 @@ dialog:not([open]){display:none}
 /* ============================================================
    FOOTER
    ============================================================ */
-.foot{background:var(--maroon-900);padding:clamp(3rem,6vw,5rem) 0 2.5rem;
-      border-top:1px solid color-mix(in srgb,var(--gold) 18%,transparent)}
+/* the footer now follows the cream press section, so it takes the same
+   scalloped hand-off as every other cream-to-maroon boundary */
+.foot{position:relative;background:var(--maroon-900);padding:clamp(4.5rem,8vw,7rem) 0 2.5rem}
 .foot__in{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2.5rem;align-items:center}
 .foot__mark{width:220px;margin-bottom:1.3rem}
 .foot__org p{margin:0;font-size:.94rem;color:color-mix(in srgb,var(--cream) 82%,transparent);line-height:1.7}
